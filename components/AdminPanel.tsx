@@ -126,8 +126,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
         let content = '';
 
         if (type === 'question') {
-            headers = 'Company,Domain,Role,Category,Topic,Difficulty,Question,Ideal_Approach,Asked_In_BITS\n';
-            content = 'JPMorgan,Finance,Analyst,Technical,Analytics,Medium,"Describe a project...","STAR method...",Yes';
+            headers = 'Company,Domain,Role,Topic,Difficulty,Question,Ideal_Approach,Asked_In_BITS\n';
+            content = 'JPMorgan,Finance,Analyst,Analytics,Medium,"Describe a project...","STAR method...",Yes';
             filename = 'question_upload_template.csv';
         } else {
             headers = 'Title,Category,URL,Description,Source,Duration\n';
@@ -250,7 +250,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
         let failed = 0;
         const errors: string[] = [];
 
-        // Expected: Company,Domain,Role,Category,Topic,Difficulty,Question,Ideal_Approach,Asked_In_BITS
+        // Expected: Company,Domain,Role,Topic,Difficulty,Question,Ideal_Approach,Asked_In_BITS
         if (rows.length < 2) return { success: 0, failed: 0, errors: ['File is empty or missing header row'] };
 
         // Pass 1: Identify Companies to create or update
@@ -293,15 +293,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
         for (let index = 0; index < rows.slice(1).length; index++) {
             const row = rows.slice(1)[index];
             const lineNum = index + 2;
-            if (row.length < 7) {
+            if (row.length < 6) {
                 failed++;
-                if (row.length > 0) errors.push(`Line ${lineNum}: Not enough fields (found ${row.length}, expected min 7).`);
+                if (row.length > 0) errors.push(`Line ${lineNum}: Not enough fields (found ${row.length}, expected min 6).`);
                 continue;
             }
 
             try {
                 const cName = row[0]?.trim();
-                const questionText = row[6];
+                const questionText = row[5];
                 if (!questionText) throw new Error("Missing 'Question' text.");
 
                 const companyObj = processedCompanies.get(cName);
@@ -317,11 +317,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                     companyName: cName || 'Unknown',
                     domain: row[1] || 'General',
                     role: row[2] || 'General',
-                    topic: row[4] || 'General',
-                    difficulty: (['Easy', 'Medium', 'Hard'].includes(row[5]) ? row[5] : 'Medium') as Difficulty,
+                    topic: row[3] || 'General',
+                    difficulty: (['Easy', 'Medium', 'Hard'].includes(row[4]) ? row[4] : 'Medium') as Difficulty,
                     text: questionText,
-                    idealApproach: row[7] || '',
-                    askedInBITS: row[8]?.toLowerCase() === 'yes' || row[8]?.toLowerCase() === 'true',
+                    idealApproach: row[6] || '',
+                    askedInBITS: row[7]?.toLowerCase() === 'yes' || row[7]?.toLowerCase() === 'true',
                     frequency: 1
                 };
                 onAddQuestion(q);
