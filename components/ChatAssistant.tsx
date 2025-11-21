@@ -108,7 +108,7 @@ const ChatAssistant: React.FC = () => {
       {!isOpen && (
         <button
           onClick={handleAssistantClick}
-          className="fixed bottom-6 right-6 bg-bits-blue text-white p-4 rounded-full shadow-2xl hover:bg-blue-800 transition-all z-50 flex items-center gap-2 animate-bounce"
+          className="fixed bottom-6 right-6 bg-bits-blue text-white p-4 rounded-full shadow-2xl hover:bg-blue-800 transition-all z-50 flex items-center gap-2"
         >
           <IconSparkles className="w-6 h-6" />
           <span className="font-semibold">AI Assistant</span>
