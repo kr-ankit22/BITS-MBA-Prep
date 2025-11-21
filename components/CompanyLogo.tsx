@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface CompanyLogoProps {
     url?: string;
@@ -8,6 +8,22 @@ interface CompanyLogoProps {
 
 const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) => {
     const [error, setError] = useState(false);
+    const [proxyUrl, setProxyUrl] = useState<string | undefined>(url);
+
+    useEffect(() => {
+        if (url && url.includes('logo.clearbit.com')) {
+            // Extract domain from Clearbit URL
+            const domain = url.replace('https://logo.clearbit.com/', '');
+
+            // Use proxy function in production, direct URL in development
+            const isProduction = window.location.hostname !== 'localhost';
+            if (isProduction) {
+                setProxyUrl(`/.netlify/functions/logo-proxy?domain=${encodeURIComponent(domain)}`);
+            } else {
+                setProxyUrl(url);
+            }
+        }
+    }, [url]);
 
     // Generate initials
     const getInitials = (name: string) => {
@@ -44,7 +60,7 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) 
         return colors[Math.abs(hash) % colors.length];
     };
 
-    if (!url || error) {
+    if (!proxyUrl || error) {
         return (
             <div className={`${className} ${getNiceColor(name)} flex items-center justify-center text-white font-bold shadow-sm`}>
                 <span className="text-lg tracking-wider">{getInitials(name)}</span>
@@ -54,7 +70,7 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) 
 
     return (
         <img
-            src={url}
+            src={proxyUrl}
             alt={name}
             className={`${className} object-contain bg-white`}
             onError={() => setError(true)}
