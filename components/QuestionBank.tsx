@@ -1,7 +1,9 @@
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Question, Topic, Company } from '../types';
 import Pagination from './Pagination';
+import CompanyLogo from './CompanyLogo';
 import { IconFilter, IconBriefcase, IconUser, IconChart, IconX, IconChevronDown, IconChevronUp } from './Icons';
 
 interface QuestionBankProps {
@@ -43,17 +45,11 @@ const CompanyGroupCard: React.FC<{
       >
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 bg-white border border-gray-100 rounded-lg flex items-center justify-center p-1 shadow-sm overflow-hidden">
-            {/* We will pass the logo URL from the parent or find it here if we had the full company object. 
-                 For now, let's rely on the parent passing it or just using the name fallback if not provided. 
-                 Actually, the parent has the company list, so it can pass the logo. 
-                 But wait, groupedByCompany only has questions. 
-                 We need to look up the company details. 
-             */}
-            {companyLogo ? (
-              <img src={companyLogo} alt={companyName} className="w-full h-full object-contain" />
-            ) : (
-              <span className="text-xl font-bold text-gray-400">{companyName.charAt(0)}</span>
-            )}
+            <CompanyLogo
+              url={companyLogo}
+              name={companyName}
+              className="w-full h-full"
+            />
           </div>
           <div>
             <h3 className="text-lg font-bold text-gray-900">{companyName}</h3>
