@@ -2,19 +2,49 @@
 <img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
 </div>
 
-# Run and deploy your AI Studio app
+# BITS MBA Analytics Prep
 
-This contains everything you need to run your app locally.
+A comprehensive web application to help BITS MBA students prepare for placements with interview questions, company information, and learning resources.
 
-View your app in AI Studio: https://ai.studio/apps/drive/1g4gDQ_VPQo4WWpk-wAN8uTBUdQUTp7m9
+## Features
+
+- 📊 **Question Bank**: Browse and filter interview questions by company, topic, and difficulty
+- 🏢 **Company Directory**: View 25+ recruiting partners with logos and details
+- 📚 **Resource Library**: Curated learning materials for analytics preparation
+- 🤖 **AI Assistant**: Coming soon with quirky quotes!
 
 ## Run Locally
 
-**Prerequisites:**  Node.js
-
+**Prerequisites:** Node.js
 
 1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+   ```bash
+   npm install
+   ```
+
+2. Set up environment variables:
+   - Copy `.env.example` to `.env.local`
+   - Add your `GEMINI_API_KEY` and Supabase credentials
+
 3. Run the app:
-   `npm run dev`
+   ```bash
+   npm run dev
+   ```
+
+## Tech Stack
+
+- React + TypeScript
+- Vite
+- Supabase (Database)
+- Gemini AI
+- Tailwind CSS
+
+## Recent Updates
+
+- ✅ Added Clearbit logos for all 25 companies
+- ✅ Implemented quirky AI Assistant quotes
+- ✅ Enhanced UI with better contrast and aesthetics
+
+## License
+
+MIT License
