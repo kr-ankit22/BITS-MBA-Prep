@@ -170,7 +170,11 @@ const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initi
   const [expandedCompany, setExpandedCompany] = useState<string | null>(null);
 
   // Filter Lists
-  const topics = ['All', ...Object.values(Topic)];
+  // Filter Lists
+  const topics = useMemo(() => {
+    const uniqueTopics = Array.from(new Set(questions.map(q => q.topic).filter(Boolean)));
+    return ['All', ...uniqueTopics.sort()];
+  }, [questions]);
   // const categories = ['All', 'Technical', 'Behavioral', 'HR', 'Case']; // Removed
   const companyNames = ['All', ...Array.from(new Set(companies.map(c => c.name)))];
 
@@ -282,9 +286,8 @@ const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initi
                   onChange={(e) => setSelectedTopic(e.target.value)}
                   className="appearance-none w-full bg-white border border-gray-200 text-gray-700 py-2 pl-4 pr-8 rounded-lg focus:outline-none focus:ring-2 focus:ring-bits-blue/20 focus:border-bits-blue text-sm font-medium transition-all cursor-pointer hover:border-gray-300"
                 >
-                  <option value="All">All Topics</option>
-                  {Object.values(Topic).map(t => (
-                    <option key={t} value={t}>{t}</option>
+                  {topics.map(t => (
+                    <option key={t} value={t}>{t === 'All' ? 'All Topics' : t}</option>
                   ))}
                 </select>
                 <IconChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />

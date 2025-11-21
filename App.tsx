@@ -13,13 +13,32 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import CompanyLogo from './components/CompanyLogo';
 import CompaniesList from './components/CompaniesList';
 
+const Typewriter: React.FC<{ text: string; delay?: number }> = ({ text, delay = 150 }) => {
+  const [currentText, setCurrentText] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setCurrentText(prev => prev + text[currentIndex]);
+        setCurrentIndex(prev => prev + 1);
+      }, delay);
+      return () => clearTimeout(timeout);
+    }
+  }, [currentIndex, delay, text]);
+
+  return <span>{currentText}<span className="animate-pulse">|</span></span>;
+};
+
 const App: React.FC = () => {
+  // ... existing state ...
   const [view, setView] = useState<ViewState>('home');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // ... existing useEffect ...
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
@@ -36,6 +55,7 @@ const App: React.FC = () => {
     loadData();
   }, []);
 
+  // ... existing handlers ...
   const handleAddQuestion = async (newQ: Question) => {
     const savedQ = await api.addQuestion(newQ);
     if (savedQ) {
@@ -51,15 +71,6 @@ const App: React.FC = () => {
   };
 
   const handleAddCompany = async (newOrUpdatedCompany: Company): Promise<Company | undefined> => {
-    // Check if company exists locally to decide update vs insert logic
-    // For now, we only support adding new companies via this simple UI flow
-    // or we need to implement update logic in API.
-    // Simplified: Just add for now as per original logic implies "newOrUpdated"
-    // but original logic handled merge.
-    // Let's assume for this MVP we just add new ones or handle duplicates in backend.
-
-    // Ideally we check if it exists in DB.
-    // For this migration, let's just implement add.
     const savedC = await api.addCompany(newOrUpdatedCompany);
     if (savedC) {
       setCompanies(prev => [...prev, savedC]);
@@ -74,12 +85,14 @@ const App: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-3 cursor-pointer group" onClick={() => setView('home')}>
-            <div className="w-9 h-9 bg-bits-blue rounded-lg flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
-              <span className="font-bold text-white text-lg">B</span>
-            </div>
+            <img
+              src="/BITS_Pilani-Logo.svg.png"
+              alt="BITS Pilani"
+              className="h-10 w-auto group-hover:scale-105 transition-transform"
+            />
             <div className="flex flex-col">
-              <span className="font-bold text-lg tracking-tight text-gray-900 leading-none">BITS Prep</span>
-              <span className="text-[10px] font-bold text-bits-gold uppercase tracking-widest">MBA Analytics</span>
+              <span className="font-bold text-lg tracking-tight text-gray-900 leading-none">BITS Pilani</span>
+              <span className="text-[10px] font-bold text-bits-gold uppercase tracking-widest">MBA Analytics Prep</span>
             </div>
           </div>
 
@@ -104,15 +117,15 @@ const App: React.FC = () => {
 
   const renderHome = () => (
     <div className="animate-in fade-in duration-500">
-      <div className="bg-bits-blue text-white py-24 px-4 text-center relative overflow-hidden">
+      <div className="bg-gradient-to-br from-bits-blue via-bits-dark to-bits-maroon text-white py-24 px-4 text-center relative overflow-hidden">
         <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
         <div className="relative z-10 max-w-4xl mx-auto">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight">Master Your Placements</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 tracking-tight"> Unlock your Analytics <span className="text-bits-gold"><Typewriter text="Career" /></span></h1>
           <p className="text-xl text-blue-100 mb-10 font-light">
-            The official preparation portal for BITS Pilani MBA Analytics. Access {questions.length}+ interview questions, {resources.length}+ curated resources, and AI-powered mock interviews.
+            Student Led preparation portal for BITS Pilani MBA Analytics. Access {questions.length}+ interview questions, {resources.length}+ curated resources, and comprehensive placement preparation.
           </p>
           <div className="flex justify-center gap-4">
-            <button onClick={() => setView('questions')} className="bg-bits-gold text-bits-blue font-bold py-3 px-8 rounded-lg hover:bg-yellow-400 transition-transform transform hover:scale-105 shadow-lg">
+            <button onClick={() => setView('questions')} className="bg-bits-gold text-white font-bold py-3 px-8 rounded-lg hover:bg-yellow-500 transition-transform transform hover:scale-105 shadow-lg">
               Start Practice
             </button>
             <button onClick={() => setView('resources')} className="bg-white/10 backdrop-blur-sm border border-white/30 text-white font-bold py-3 px-8 rounded-lg hover:bg-white/20 transition-colors">
@@ -143,7 +156,7 @@ const App: React.FC = () => {
               <IconChart className="w-7 h-7 text-purple-600 group-hover:text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">Insights</h3>
-            <p className="text-gray-600">Analyze trends in questions asked. Focus your preparation on high-frequency topics.</p>
+            <p className="text-gray-600">Self-Analyze trends [or lack thereof :-] in questions asked. Focussed & Smart Preparation is the way!</p>
           </div>
         </div>
       </div>
@@ -184,9 +197,9 @@ const App: React.FC = () => {
                   cursor={{ fill: '#F3F4F6' }}
                   contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }}
                 />
-                <Bar dataKey="count" fill="#00529B" radius={[4, 4, 0, 0]} barSize={50}>
+                <Bar dataKey="count" fill="#003366" radius={[4, 4, 0, 0]} barSize={50}>
                   {data.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#00529B' : '#D4A017'} />
+                    <Cell key={`cell-${index}`} fill={index % 2 === 0 ? '#003366' : '#8B0000'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -210,7 +223,7 @@ const App: React.FC = () => {
             initialCompany={selectedCompany}
           />
         )}
-        {view === 'resources' && <ResourceLibrary />}
+        {view === 'resources' && <ResourceLibrary resources={resources} />}
         {view === 'companies' && (
           <CompaniesList
             companies={companies}
@@ -234,16 +247,19 @@ const App: React.FC = () => {
 
       <ChatAssistant />
 
-      <footer className="bg-white border-t border-gray-200 py-10 mt-auto">
+      <footer className="bg-gradient-to-r from-bits-dark to-bits-blue border-t border-gray-200 py-10 mt-auto text-white">
         <div className="max-w-7xl mx-auto px-4 flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="text-center md:text-left">
-            <span className="font-bold text-gray-900">BITS Prep.Analytics</span>
-            <p className="text-gray-500 text-sm mt-1">© 2024 BITS Pilani MBA Placement Committee.</p>
+          <div className="text-center md:text-left flex items-center gap-3">
+            <img src="/BITS_Pilani-Logo.svg.png" alt="BITS Pilani" className="h-8 w-auto" />
+            <div>
+              <span className="font-bold">BITS Pilani MBA Analytics Prep</span>
+              <p className="text-blue-200 text-sm mt-1">© 2024-26 BITS Pilani MBA Placement Committee</p>
+            </div>
           </div>
-          <div className="flex gap-6 text-gray-500 text-sm">
-            <a href="#" className="hover:text-bits-blue">Privacy Policy</a>
-            <a href="#" className="hover:text-bits-blue">Terms of Use</a>
-            <a href="#" className="hover:text-bits-blue">Contact Support</a>
+          <div className="flex gap-6 text-blue-200 text-sm">
+            <a href="#" className="hover:text-bits-gold">Privacy Policy</a>
+            <a href="#" className="hover:text-bits-gold">Terms of Use</a>
+            <a href="#" className="hover:text-bits-gold">Contact Support</a>
           </div>
         </div>
       </footer>
