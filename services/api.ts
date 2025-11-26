@@ -159,3 +159,113 @@ export const addResource = async (resource: Omit<Resource, 'id'>): Promise<Resou
         id: String(data.id)
     } as Resource;
 };
+
+// --- Recommendations (Mock Data for SaaS Upgrade) ---
+
+import { Recommendation, RecommendationSubject } from '../types';
+
+let MOCK_RECOMMENDATIONS: Recommendation[] = [
+    {
+        id: 'rec1',
+        facultyName: 'Dr. S. Mehta',
+        date: '11/20/2024',
+        title: 'Advanced Pandas Techniques',
+        url: 'https://pandas.pydata.org/docs/user_guide/advanced.html',
+        description: 'A deep dive into multi-indexing and reshaping dataframes.',
+        subject: RecommendationSubject.Python,
+        goal: 'Master complex data manipulation',
+        expectedLearning: 'Ability to handle high-dimensional data efficiently.',
+        timeToComplete: '2 Hours'
+    },
+    {
+        id: 'rec2',
+        facultyName: 'Prof. R. Kapoor',
+        date: '11/18/2024',
+        title: 'Understanding ARIMA Models',
+        description: 'Key concepts behind AutoRegressive Integrated Moving Average models for forecasting.',
+        subject: RecommendationSubject.TimeSeries,
+        goal: 'Build robust forecasting models',
+        expectedLearning: 'Theoretical understanding of stationarity and differencing.',
+        remarks: 'Focus on the mathematical derivation in section 3.',
+        timeToComplete: '45 Mins'
+    },
+    {
+        id: 'rec3',
+        facultyName: 'Dr. A. Sharma',
+        date: '11/25/2024',
+        title: 'Visualizing High-Dimensional Data',
+        url: 'https://distill.pub/2016/misread-tsne/',
+        description: 'Interactive article on how to use t-SNE effectively.',
+        subject: RecommendationSubject.DataViz,
+        goal: 'Effective dimensionality reduction visualization',
+        expectedLearning: 'Intuition for hyperparameter tuning in t-SNE.',
+        timeToComplete: '30 Mins'
+    }
+];
+
+export const fetchRecommendations = async (): Promise<Recommendation[]> => {
+    const { data, error } = await supabase
+        .from('recommendations')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching recommendations:', error);
+        return [];
+    }
+
+    if (!data) return [];
+
+    return data.map((rec: any) => ({
+        id: rec.id,
+        facultyName: rec.faculty_name,
+        date: new Date(rec.created_at).toLocaleDateString(),
+        title: rec.title,
+        url: rec.url,
+        description: rec.description,
+        subject: rec.subject as RecommendationSubject,
+        goal: rec.goal,
+        expectedLearning: rec.expected_learning,
+        remarks: rec.remarks,
+        timeToComplete: rec.time_to_complete
+    }));
+};
+
+export const addRecommendation = async (rec: Recommendation): Promise<Recommendation | null> => {
+    const dbRec = {
+        faculty_name: rec.facultyName,
+        title: rec.title,
+        url: rec.url,
+        description: rec.description,
+        subject: rec.subject,
+        goal: rec.goal,
+        expected_learning: rec.expectedLearning,
+        remarks: rec.remarks,
+        time_to_complete: rec.timeToComplete
+    };
+
+    const { data, error } = await supabase
+        .from('recommendations')
+        .insert([dbRec])
+        .select()
+        .single();
+
+    if (error) {
+        console.error('Error adding recommendation:', error);
+        return null;
+    }
+
+    return {
+        id: data.id,
+        facultyName: data.faculty_name,
+        date: new Date(data.created_at).toLocaleDateString(),
+        title: data.title,
+        url: data.url,
+        description: data.description,
+        subject: data.subject as RecommendationSubject,
+        goal: data.goal,
+        expectedLearning: data.expected_learning,
+        remarks: data.remarks,
+        timeToComplete: data.time_to_complete
+    };
+};

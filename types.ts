@@ -64,4 +64,39 @@ export interface ChatMessage {
   isError?: boolean;
 }
 
-export type ViewState = 'home' | 'questions' | 'companies' | 'analytics' | 'admin' | 'resources';
+export enum RecommendationSubject {
+  Python = 'Python',
+  R = 'R Programming',
+  DataViz = 'Data Visualization',
+  Stats = 'Introduction to Statistics',
+  TimeSeries = 'Time Series Analysis',
+  DB = 'Database Modelling & Warehousing',
+  Marketing = 'Marketing Management',
+  Predictive = 'Predictive Analytics',
+  DeepLearning = 'Deep Learning For Business',
+  HR = 'Human Resources',
+  NLP = 'NLP',
+  Finance = 'Financial Analytics'
+}
+
+export interface Recommendation {
+  id: string;
+  facultyName: string;
+  date: string;
+
+  // Content
+  title: string;
+  url?: string;
+  description: string;
+
+  // Context
+  subject: RecommendationSubject | string;
+
+  // Pedagogy
+  goal: string;
+  expectedLearning: string;
+  remarks?: string;
+  timeToComplete?: string;
+}
+
+export type ViewState = 'home' | 'questions' | 'companies' | 'analytics' | 'admin' | 'resources' | 'faculty' | 'login' | 'recommendations';

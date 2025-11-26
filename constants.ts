@@ -58,7 +58,7 @@ export const QUESTIONS: Question[] = [
     companyName: 'JPMorgan Chase',
     text: 'Write a SQL query to find the second highest salary from an Employee table.',
     topic: Topic.SQL,
-    category: 'Technical',
+    // category: 'Technical',
     difficulty: Difficulty.Easy,
     frequency: 8,
     idealApproach: 'SELECT MAX(Salary) FROM Employee WHERE Salary < (SELECT MAX(Salary) FROM Employee); OR using dense_rank(): SELECT * FROM (SELECT Salary, DENSE_RANK() OVER (ORDER BY Salary DESC) as rank FROM Employee) WHERE rank = 2;',
@@ -155,3 +155,20 @@ export const RESOURCES: Resource[] = [
     duration: 'Various'
   }
 ];
+
+// --- Access Control Lists ---
+// Replace these with actual emails when ready
+export const ADMIN_EMAILS = [
+  'admin@bits-pilani.ac.in',
+  'placement@bits-pilani.ac.in',
+  'test_admin_bits_prep@gmail.com' // For testing
+];
+
+export const FACULTY_EMAILS = [
+  'h20240806@pilani.bits-pilani.ac.in', // Admin
+  'faculty@bits-pilani.ac.in',
+  'professor@bits-pilani.ac.in',
+  'test_faculty@example.com' // For testing
+];
+
+
