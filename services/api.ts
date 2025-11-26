@@ -164,44 +164,7 @@ export const addResource = async (resource: Omit<Resource, 'id'>): Promise<Resou
 
 import { Recommendation, RecommendationSubject } from '../types';
 
-let MOCK_RECOMMENDATIONS: Recommendation[] = [
-    {
-        id: 'rec1',
-        facultyName: 'Dr. S. Mehta',
-        date: '11/20/2024',
-        title: 'Advanced Pandas Techniques',
-        url: 'https://pandas.pydata.org/docs/user_guide/advanced.html',
-        description: 'A deep dive into multi-indexing and reshaping dataframes.',
-        subject: RecommendationSubject.Python,
-        goal: 'Master complex data manipulation',
-        expectedLearning: 'Ability to handle high-dimensional data efficiently.',
-        timeToComplete: '2 Hours'
-    },
-    {
-        id: 'rec2',
-        facultyName: 'Prof. R. Kapoor',
-        date: '11/18/2024',
-        title: 'Understanding ARIMA Models',
-        description: 'Key concepts behind AutoRegressive Integrated Moving Average models for forecasting.',
-        subject: RecommendationSubject.TimeSeries,
-        goal: 'Build robust forecasting models',
-        expectedLearning: 'Theoretical understanding of stationarity and differencing.',
-        remarks: 'Focus on the mathematical derivation in section 3.',
-        timeToComplete: '45 Mins'
-    },
-    {
-        id: 'rec3',
-        facultyName: 'Dr. A. Sharma',
-        date: '11/25/2024',
-        title: 'Visualizing High-Dimensional Data',
-        url: 'https://distill.pub/2016/misread-tsne/',
-        description: 'Interactive article on how to use t-SNE effectively.',
-        subject: RecommendationSubject.DataViz,
-        goal: 'Effective dimensionality reduction visualization',
-        expectedLearning: 'Intuition for hyperparameter tuning in t-SNE.',
-        timeToComplete: '30 Mins'
-    }
-];
+
 
 export const fetchRecommendations = async (): Promise<Recommendation[]> => {
     const { data, error } = await supabase

@@ -9,7 +9,7 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
-    const { mockLogin } = useAuth();
+    // const { mockLogin } = useAuth(); // Removed for production
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
@@ -53,10 +53,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
         }
     };
 
-    const handleMockLogin = (email: string, role: 'admin' | 'faculty') => {
-        mockLogin(email, role);
-        onLoginSuccess();
-    };
+
 
     if (signUpSuccess) {
         return (
@@ -173,23 +170,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onLoginSuccess }) => {
                     </div>
                 </div>
 
-                <div className="mt-8 pt-6 border-t border-gray-100">
-                    <p className="text-xs text-center text-gray-400 mb-4 uppercase tracking-wider font-bold">Development Access (Bypass Auth)</p>
-                    <div className="grid grid-cols-2 gap-3">
-                        <button
-                            onClick={() => handleMockLogin('test_admin_bits_prep@gmail.com', 'admin')}
-                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded transition-colors"
-                        >
-                            Login as Admin
-                        </button>
-                        <button
-                            onClick={() => handleMockLogin('test_faculty@example.com', 'faculty')}
-                            className="px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 text-xs font-bold rounded transition-colors"
-                        >
-                            Login as Faculty
-                        </button>
-                    </div>
-                </div>
+
 
                 <div className="mt-6 text-center text-xs text-gray-400">
                     Protected by Supabase Auth. <br />
