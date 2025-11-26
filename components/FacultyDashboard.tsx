@@ -286,10 +286,10 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ onAddRecommendation
                                     <div className="grid grid-cols-1 gap-6">
                                         <div className="space-y-1.5">
                                             <label className={labelStyle}>Goal / Objective <span className="text-red-500">*</span></label>
-                                            <input
-                                                type="text"
+                                            <textarea
                                                 value={goal}
                                                 onChange={e => setGoal(e.target.value)}
+                                                rows={2}
                                                 className={inputStyle}
                                                 placeholder="e.g. Master complex data manipulation"
                                                 required
@@ -300,7 +300,7 @@ const FacultyDashboard: React.FC<FacultyDashboardProps> = ({ onAddRecommendation
                                             <textarea
                                                 value={expectedLearning}
                                                 onChange={e => setExpectedLearning(e.target.value)}
-                                                rows={3}
+                                                rows={4}
                                                 className={inputStyle}
                                                 placeholder="What will the student be able to do after this?"
                                                 required

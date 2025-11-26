@@ -731,11 +731,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className={labelStyle}>Goal <span className="text-red-500">*</span></label>
-                                            <input type="text" value={recGoal} onChange={e => setRecGoal(e.target.value)} className={inputStyle} required />
+                                            <textarea value={recGoal} onChange={e => setRecGoal(e.target.value)} rows={2} className={inputStyle} required />
                                         </div>
                                         <div className="space-y-1.5">
                                             <label className={labelStyle}>Expected Learning <span className="text-red-500">*</span></label>
-                                            <input type="text" value={recLearning} onChange={e => setRecLearning(e.target.value)} className={inputStyle} required />
+                                            <textarea value={recLearning} onChange={e => setRecLearning(e.target.value)} rows={4} className={inputStyle} required />
                                         </div>
                                         <div className="md:col-span-2 space-y-1.5">
                                             <label className={labelStyle}>URL</label>
