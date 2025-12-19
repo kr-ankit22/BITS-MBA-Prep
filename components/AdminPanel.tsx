@@ -406,6 +406,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
             }
         }
 
+        // Pre-fetch all existing questions to check for duplicates
+        const existingQuestions = await api.fetchQuestions();
+        const existingSignatures = new Set(existingQuestions.map(q =>
+            `${q.companyName.toLowerCase().trim()}|${q.text.toLowerCase().trim()}`
+        ));
+
         // Pass 2: Create Questions
         for (let index = 0; index < rows.slice(1).length; index++) {
             const row = rows.slice(1)[index];
@@ -418,8 +424,20 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
 
             try {
                 const cName = row[0]?.trim();
-                const questionText = row[5];
+                const questionText = row[5]?.trim();
                 if (!questionText) throw new Error("Missing 'Question' text.");
+
+                // DUPLICATE CHECK
+                const signature = `${cName.toLowerCase().trim()}|${questionText.toLowerCase().trim()}`;
+                if (existingSignatures.has(signature)) {
+                    // Skip silently or count as skipped? Let's skip silently to avoid noise, 
+                    // or maybe log it if we want to be verbose. 
+                    // For now, let's treat it as "not failed" but "not success" either, just skipped.
+                    // Or count as success to indicate processed? 
+                    // Better validation: Let's log it to console but not error list.
+                    console.log(`Skipping duplicate: ${signature}`);
+                    continue;
+                }
 
                 const companyObj = processedCompanies.get(cName);
                 if (!companyObj) {
@@ -441,7 +459,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                     askedInBITS: row[7]?.toLowerCase() === 'yes' || row[7]?.toLowerCase() === 'true',
                     frequency: 1
                 };
-                onAddQuestion(q);
+
+                await onAddQuestion(q); // Await this to ensure sequential processing
+                existingSignatures.add(signature); // Add to set to prevent dupes within the same file
                 success++;
             } catch (e: any) {
                 failed++;
@@ -1009,6 +1029,36 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                     disabled={isUploading}
                                 />
                             </label>
+
+                            <button
+                                onClick={async () => {
+                                    const allQuestions = await api.fetchQuestions();
+                                    const headers = ['Company', 'Domain', 'Role', 'Topic', 'Difficulty', 'Question', 'Ideal_Approach', 'Asked_In_BITS'];
+                                    const csvContent = [
+                                        headers.join(','),
+                                        ...allQuestions.map(q => [
+                                            `"${q.companyName}"`,
+                                            `"${q.domain}"`, // Ensure domain is mapped if available, otherwise 'General'
+                                            `"${q.role}"`,
+                                            `"${q.topic}"`,
+                                            `"${q.difficulty}"`,
+                                            `"${q.text.replace(/"/g, '""')}"`, // Escape quotes
+                                            `"${(q.idealApproach || '').replace(/"/g, '""')}"`,
+                                            q.askedInBITS ? 'Yes' : 'No'
+                                        ].join(','))
+                                    ].join('\n');
+                                    
+                                    const blob = new Blob([csvContent], { type: 'text/csv' });
+                                    const url = window.URL.createObjectURL(blob);
+                                    const a = document.createElement('a');
+                                    a.href = url;
+                                    a.download = `BITS_Question_Bank_Export_${new Date().toISOString().split('T')[0]}.csv`;
+                                    a.click();
+                                }}
+                                className="mt-4 w-full text-xs font-bold text-bits-blue hover:underline text-center"
+                            >
+                                ⬇️ Download Current Question Bank (CSV)
+                            </button>
 
                             {isUploading && (
                                 <div className="mt-2">
