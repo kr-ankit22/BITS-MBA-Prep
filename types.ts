@@ -47,6 +47,18 @@ export interface Question {
   interviewExperienceId?: string; // Link to parent experience
 }
 
+export interface InterviewRound {
+  id: string;
+  type: 'Online Test' | 'Technical' | 'HR' | 'Case Study' | 'Managerial' | 'Group Discussion';
+  difficulty: Difficulty;
+  duration?: string;
+  description?: string;
+  questions: {
+    text: string;
+    answer?: string;
+  }[];
+}
+
 export interface InterviewExperience {
   id: string;
   companyId: string;
@@ -57,7 +69,14 @@ export interface InterviewExperience {
   difficulty: Difficulty;
   outcome: 'Offer' | 'Rejected' | 'Waitlisted' | 'Unknown';
   overallExperience: string;
-  questions: Question[]; // Hydrated questions
+
+  // Legacy support: Single list of questions
+  questions: Question[];
+
+  // V2 Support: Structured Rounds
+  roundsSnapshot?: InterviewRound[];
+  status?: 'approved' | 'pending' | 'rejected';
+  contributorId?: string;
 }
 
 export interface Resource {
@@ -113,4 +132,4 @@ export interface Recommendation {
   timeToComplete?: string;
 }
 
-export type ViewState = 'home' | 'questions' | 'companies' | 'analytics' | 'admin' | 'resources' | 'faculty' | 'login' | 'recommendations';
+export type ViewState = 'home' | 'questions' | 'companies' | 'analytics' | 'admin' | 'resources' | 'faculty' | 'login' | 'recommendations' | 'contributor';

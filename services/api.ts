@@ -232,3 +232,116 @@ export const addRecommendation = async (rec: Recommendation): Promise<Recommenda
         timeToComplete: data.time_to_complete
     };
 };
+
+// --- Interview Experiences (V2 Community Upgrade) ---
+
+import { InterviewExperience } from '../types';
+
+export const fetchExperiences = async (status: 'approved' | 'pending' | 'rejected' | 'all' = 'approved'): Promise<InterviewExperience[]> => {
+    let query = supabase
+        .from('interview_experiences')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+    if (status !== 'all') {
+        query = query.eq('status', status);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+        console.error('Error fetching experiences:', error);
+        return [];
+    }
+
+    if (!data) return [];
+
+    return data.map((exp: any) => ({
+        id: exp.id,
+        companyId: exp.company_id,
+        companyName: exp.company_name, // Denormalized or joined
+        studentName: exp.student_name,
+        role: exp.role,
+        date: new Date(exp.created_at).toLocaleDateString(),
+        difficulty: exp.difficulty as Difficulty,
+        outcome: exp.outcome,
+        overallExperience: exp.overall_experience,
+        questions: [], // Legacy format not used here usually
+        roundsSnapshot: exp.rounds_snapshot, // V2 JSON
+        status: exp.status,
+        contributorId: exp.contributor_id
+    }));
+};
+
+export const fetchContributorExperiences = async (contributorId: string): Promise<InterviewExperience[]> => {
+    const { data, error } = await supabase
+        .from('interview_experiences')
+        .select('*')
+        .eq('contributor_id', contributorId)
+        .order('created_at', { ascending: false });
+
+    if (error) {
+        console.error('Error fetching contributor experiences:', error);
+        return [];
+    }
+
+    if (!data) return [];
+
+    return data.map((exp: any) => ({
+        id: exp.id,
+        companyId: exp.company_id,
+        companyName: exp.company_name,
+        studentName: exp.student_name,
+        role: exp.role,
+        date: new Date(exp.created_at).toLocaleDateString(),
+        difficulty: exp.difficulty as Difficulty,
+        outcome: exp.outcome,
+        overallExperience: exp.overall_experience,
+        questions: [],
+        roundsSnapshot: exp.rounds_snapshot,
+        status: exp.status,
+        contributorId: exp.contributor_id
+    }));
+};
+
+export const addExperience = async (exp: Omit<InterviewExperience, 'id'>): Promise<InterviewExperience | null> => {
+    const dbExp = {
+        company_id: exp.companyId,
+        company_name: exp.companyName,
+        student_name: exp.studentName,
+        role: exp.role,
+        difficulty: exp.difficulty,
+        outcome: exp.outcome,
+        overall_experience: exp.overallExperience,
+        rounds_snapshot: exp.roundsSnapshot, // Save the JSON structure
+        status: exp.status || 'pending',
+        contributor_id: exp.contributorId
+    };
+
+    const { data, error } = await supabase
+        .from('interview_experiences')
+        .insert([dbExp])
+        .select()
+        .single();
+
+    if (error) {
+        console.error('Error adding experience:', error);
+        return null;
+    }
+
+    return {
+        id: data.id,
+        companyId: data.company_id,
+        companyName: data.company_name,
+        studentName: data.student_name,
+        role: data.role,
+        date: new Date(data.created_at).toLocaleDateString(),
+        difficulty: data.difficulty as Difficulty,
+        outcome: data.outcome,
+        overallExperience: data.overall_experience,
+        questions: [],
+        roundsSnapshot: data.rounds_snapshot,
+        status: data.status,
+        contributorId: data.contributor_id
+    };
+};

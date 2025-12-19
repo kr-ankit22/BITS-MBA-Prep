@@ -11,6 +11,7 @@ import ResourceLibrary from './components/ResourceLibrary';
 import FacultyDashboard from './components/FacultyDashboard';
 import RecommendationList from './components/RecommendationList';
 import LoginPage from './components/LoginPage';
+import ContributorDashboard from './components/ContributorDashboard';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
 import { IconBook, IconBriefcase, IconChart, IconHome, IconUser, IconLogOut } from './components/Icons';
@@ -127,6 +128,9 @@ const MainContent: React.FC = () => {
             )}
             {role === 'faculty' && (
               <button onClick={() => setView('faculty')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'faculty' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Faculty Portal</button>
+            )}
+            {role === 'contributor' && (
+              <button onClick={() => setView('contributor')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'contributor' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>My Contributions</button>
             )}
 
             <div className="h-6 w-px bg-gray-200 mx-2"></div>
@@ -268,6 +272,11 @@ const MainContent: React.FC = () => {
     if (view === 'faculty') {
       if (role !== 'faculty') return <div className="p-8 text-center text-red-600">Access Denied. Faculty only.</div>;
       return <FacultyDashboard onAddRecommendation={handleAddRecommendation} />;
+    }
+
+    if (view === 'contributor') {
+      if (role !== 'contributor') return <div className="p-8 text-center text-red-600">Access Denied. Contributors only.</div>;
+      return <ContributorDashboard companies={companies} />;
     }
 
     return renderHome();

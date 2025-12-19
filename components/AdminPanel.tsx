@@ -1,13 +1,15 @@
-import React, { useState, useRef } from 'react';
-import { Question, Resource, Company, Recommendation, RecommendationSubject, Difficulty, Topic } from '../types';
-import { IconUpload, IconCheckCircle, IconX, IconDatabase, IconBriefcase, IconBook, IconUser, IconLink } from './Icons';
+import React, { useState, useRef, useEffect } from 'react';
+import { Question, Resource, Company, Recommendation, RecommendationSubject, Difficulty, Topic, InterviewExperience } from '../types';
+import { IconUpload, IconCheckCircle, IconX, IconDatabase, IconBriefcase, IconBook, IconUser, IconLink, IconTime } from './Icons';
 import { readFileContent, parseCSV, validateHeaders } from '../utils/csvHelpers';
 import { supabase } from '../services/supabaseClient';
+import * as api from '../services/api';
+
 
 interface UserRoleData {
     id: string;
     email: string;
-    role: 'admin' | 'faculty' | 'student';
+    role: 'admin' | 'faculty' | 'student' | 'contributor';
     auth_provider: 'google' | 'local';
     full_name?: string;
     created_at: string;
@@ -25,10 +27,40 @@ interface AdminPanelProps {
 const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, onAddRecommendation, companies, onAddCompany, onAddExperience }) => {
     const [activeTab, setActiveTab] = useState<'question' | 'resource' | 'recommendation' | 'users' | 'experience'>('question');
     const [users, setUsers] = useState<UserRoleData[]>([]);
+    const [pendingExperiences, setPendingExperiences] = useState<InterviewExperience[]>([]);
+
     const [isUploading, setIsUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
     const [uploadStats, setUploadStats] = useState<{ success: number; failed: number; errors: string[] } | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
+
+    // Fetch Pending Experiences whenever "experience" tab is active
+    useEffect(() => {
+        if (activeTab === 'experience') {
+            loadPendingReviews();
+        }
+    }, [activeTab]);
+
+    const loadPendingReviews = async () => {
+        const data = await api.fetchExperiences('pending');
+        setPendingExperiences(data);
+    };
+
+    const handleReviewAction = async (id: string, action: 'approve' | 'reject') => {
+        const status = action === 'approve' ? 'approved' : 'rejected';
+        const { error } = await supabase
+            .from('interview_experiences')
+            .update({ status })
+            .eq('id', id);
+
+        if (!error) {
+            // Remove from local list
+            setPendingExperiences(prev => prev.filter(e => e.id !== id));
+            alert(`Experience ${action}d successfully!`);
+        } else {
+            alert(`Failed to ${action} experience.`);
+        }
+    };
 
     // Question Form State
     const [qCompany, setQCompany] = useState('');
@@ -71,7 +103,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
 
     // User Form State
     const [uEmail, setUEmail] = useState('');
-    const [uRole, setURole] = useState<'admin' | 'faculty' | 'student'>('student');
+    const [uRole, setURole] = useState<'admin' | 'faculty' | 'student' | 'contributor'>('student');
     const [uProvider, setUProvider] = useState<'google' | 'local'>('google');
     const [uName, setUName] = useState('');
 
@@ -546,7 +578,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                 const provider = row[2]?.trim().toLowerCase();
                 const name = row[3]?.trim();
 
-                if (!['admin', 'faculty', 'student'].includes(role)) throw new Error(`Invalid role: ${role}`);
+                if (!['admin', 'faculty', 'student', 'contributor'].includes(role)) throw new Error(`Invalid role: ${role}`);
                 if (!['google', 'local'].includes(provider)) throw new Error(`Invalid provider: ${provider}`);
 
                 if (provider === 'google' && !email.endsWith('@pilani.bits-pilani.ac.in')) {
@@ -590,7 +622,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
             filename = 'recommendations_template_admin.csv';
         } else {
             headers = 'Email,Role,Auth Provider,Name\n';
-            content = 'faculty@pilani.bits-pilani.ac.in,faculty,google,Dr. Sharma\nstudent@example.com,student,local,John Doe';
+            content = 'faculty@pilani.bits-pilani.ac.in,faculty,google,Dr. Sharma\nstudent@example.com,student,local,John Doe\nalumni@example.com,contributor,google,Alumni Name';
             filename = 'users_template.csv';
         }
 
@@ -648,7 +680,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                         onClick={() => { setActiveTab('experience'); setUploadStats(null); }}
                         className={`px-5 py-2 rounded-md text-sm font-semibold transition-all flex items-center gap-2 ${activeTab === 'experience' ? 'bg-white text-bits-blue shadow-sm ring-1 ring-black/5' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'}`}
                     >
-                        <IconBriefcase className="w-4 h-4" /> Experience
+                        <IconTime className="w-4 h-4" /> Review Queue
+                        {pendingExperiences.length > 0 && <span className="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full">{pendingExperiences.length}</span>}
                     </button>
                 </div>
             </div>
@@ -671,9 +704,9 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                 {activeTab === 'resource' && <IconBook className="w-5 h-5 text-bits-blue" />}
                                 {activeTab === 'recommendation' && <IconUser className="w-5 h-5 text-bits-blue" />}
                                 {activeTab === 'users' && <IconUser className="w-5 h-5 text-bits-blue" />}
-                                {activeTab === 'question' ? 'New Interview Question' : activeTab === 'resource' ? 'New Curated Resource' : activeTab === 'recommendation' ? 'New Faculty Recommendation' : 'Add New User'}
+                                {activeTab === 'question' ? 'New Interview Question' : activeTab === 'resource' ? 'New Curated Resource' : activeTab === 'recommendation' ? 'New Faculty Recommendation' : activeTab === 'users' ? 'Add New User' : 'Review Pending Experiences'}
                             </h3>
-                            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">Entry Form</span>
+                            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider">{activeTab === 'experience' ? 'Review Mode' : 'Entry Form'}</span>
                         </div>
 
                         <div className="p-6 md:p-8">
@@ -830,55 +863,8 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                         </button>
                                     </div>
                                 </form>
-                            ) : activeTab === 'experience' ? (
-                                <form onSubmit={handleExperienceSubmit} className="space-y-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-1.5">
-                                            <label className={labelStyle}>Company Name <span className="text-red-500">*</span></label>
-                                            <input list="companies" value={eCompany} onChange={e => setECompany(e.target.value)} className={inputStyle} placeholder="e.g. Google" required />
-                                            <datalist id="companies">
-                                                {companies.map(c => <option key={c.id} value={c.name} />)}
-                                            </datalist>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className={labelStyle}>Student Name</label>
-                                            <input type="text" value={eStudent} onChange={e => setEStudent(e.target.value)} className={inputStyle} placeholder="e.g. John Doe (or Anonymous)" required />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className={labelStyle}>Role</label>
-                                            <input type="text" value={eRole} onChange={e => setERole(e.target.value)} className={inputStyle} placeholder="e.g. Data Scientist" required />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className={labelStyle}>Date</label>
-                                            <input type="text" value={eDate} onChange={e => setEDate(e.target.value)} className={inputStyle} placeholder="e.g. Oct 2024" required />
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className={labelStyle}>Difficulty</label>
-                                            <select value={eDifficulty} onChange={e => setEDifficulty(e.target.value as Difficulty)} className={inputStyle}>
-                                                {Object.values(Difficulty).map(d => <option key={d} value={d}>{d}</option>)}
-                                            </select>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <label className={labelStyle}>Outcome</label>
-                                            <select value={eOutcome} onChange={e => setEOutcome(e.target.value as any)} className={inputStyle}>
-                                                <option value="Offer">Offer</option>
-                                                <option value="Rejected">Rejected</option>
-                                                <option value="Waitlisted">Waitlisted</option>
-                                                <option value="Unknown">Unknown</option>
-                                            </select>
-                                        </div>
-                                        <div className="md:col-span-2 space-y-1.5">
-                                            <label className={labelStyle}>Overall Experience <span className="text-red-500">*</span></label>
-                                            <textarea value={eExperience} onChange={e => setEExperience(e.target.value)} rows={6} className={inputStyle} placeholder="Describe the entire process, rounds, and general advice..." required />
-                                        </div>
-                                    </div>
-                                    <div className="pt-4 border-t border-gray-100">
-                                        <button type="submit" className="w-full bg-bits-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-all shadow-md">
-                                            Add Interview Experience
-                                        </button>
-                                    </div>
-                                </form>
-                            ) : (
+
+                            ) : activeTab === 'users' ? (
                                 <form onSubmit={handleUserSubmit} className="space-y-6">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="md:col-span-2 space-y-1.5">
@@ -891,6 +877,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                                 <option value="student">Student</option>
                                                 <option value="faculty">Faculty</option>
                                                 <option value="admin">Admin</option>
+                                                <option value="contributor">Contributor</option>
                                             </select>
                                         </div>
                                         <div className="space-y-1.5">
@@ -911,7 +898,81 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                         </button>
                                     </div>
                                 </form>
-                            )}
+                            ) : activeTab === 'experience' ? (
+                                <div className="space-y-6">
+                                    <div className="flex justify-between items-center mb-6">
+                                        <h2 className="text-xl font-bold text-gray-900">Pending Approvals</h2>
+                                        <button onClick={loadPendingReviews} type="button" className="text-bits-blue text-sm font-bold hover:underline">Refresh</button>
+                                    </div>
+
+                                    {pendingExperiences.length === 0 ? (
+                                        <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl border border-dashed border-gray-200">
+                                            <IconCheckCircle className="w-10 h-10 mx-auto mb-2 text-green-500" />
+                                            <p>All caught up! No pending experiences.</p>
+                                        </div>
+                                    ) : (
+                                        <div className="space-y-4">
+                                            {pendingExperiences.map(exp => (
+                                                <div key={exp.id} className="bg-white border border-gray-200 rounded-xl p-6 shadow-sm ring-1 ring-black/5">
+                                                    <div className="flex justify-between items-start mb-4">
+                                                        <div>
+                                                            <h3 className="font-bold text-lg text-gray-900">{exp.companyName} <span className="text-gray-400 font-normal">for</span> {exp.role}</h3>
+                                                            <div className="flex gap-3 text-xs text-gray-500 mt-1">
+                                                                <span className="bg-gray-100 px-2 py-0.5 rounded">Student: {exp.studentName}</span>
+                                                                <span className="bg-gray-100 px-2 py-0.5 rounded">{exp.date}</span>
+                                                                <span className={`px-2 py-0.5 rounded ${exp.outcome === 'Offer' ? 'bg-green-100 text-green-700' : 'bg-gray-100'}`}>{exp.outcome}</span>
+                                                            </div>
+                                                        </div>
+                                                        <div className="flex gap-2">
+                                                            <button
+                                                                onClick={() => handleReviewAction(exp.id, 'reject')}
+                                                                type="button"
+                                                                className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+                                                            >
+                                                                Reject
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleReviewAction(exp.id, 'approve')}
+                                                                type="button"
+                                                                className="px-3 py-1.5 text-xs font-bold text-white bg-green-500 hover:bg-green-600 rounded-lg shadow-sm transition-colors"
+                                                            >
+                                                                Approve & Publish
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="bg-gray-50 p-4 rounded-lg text-sm text-gray-700 mb-4">
+                                                        <strong>Overall Experience:</strong>
+                                                        <p className="mt-1 text-gray-600 italic">"{exp.overallExperience}"</p>
+                                                    </div>
+
+                                                    {exp.roundsSnapshot && exp.roundsSnapshot.length > 0 && (
+                                                        <div className="mt-4 border-t border-gray-100 pt-4">
+                                                            <h4 className="text-xs font-bold text-gray-500 uppercase tracking-wide mb-3">Rounds Breakdown</h4>
+                                                            <div className="grid gap-3">
+                                                                {exp.roundsSnapshot.map((r, i) => (
+                                                                    <div key={i} className="bg-white border border-gray-200 p-3 rounded text-sm">
+                                                                        <div className="flex justify-between mb-1">
+                                                                            <span className="font-bold text-bits-blue">{r.type}</span>
+                                                                            <span className="text-gray-400 text-xs">{r.difficulty} • {r.duration}</span>
+                                                                        </div>
+                                                                        {r.description && <p className="mb-2 text-gray-600">{r.description}</p>}
+                                                                        {r.questions.length > 0 && (
+                                                                            <ul className="list-disc list-inside text-gray-500 text-xs space-y-1 bg-gray-50 p-2 rounded">
+                                                                                {r.questions.map((q, j) => <li key={j}>{q.text}</li>)}
+                                                                            </ul>
+                                                                        )}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            ) : null}
                         </div>
                     </div>
                 </div>
@@ -925,7 +986,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                             Bulk Upload
                         </h3>
                         <p className="text-sm text-gray-500 mb-6 leading-relaxed">
-                            Upload a CSV file to add multiple {activeTab === 'question' ? 'questions' : activeTab === 'resource' ? 'resources' : activeTab === 'recommendation' ? 'recommendations' : 'users'} at once.
+                            Upload a CSV file to add multiple {activeTab === 'question' ? 'questions' : activeTab === 'resource' ? 'resources' : activeTab === 'recommendation' ? 'recommendations' : activeTab === 'users' ? 'users' : 'items'} at once.
                             <br /><span className="text-xs text-gray-400">Ensure formatting matches the template.</span>
                         </p>
 

@@ -98,7 +98,7 @@ const RecommendationList: React.FC<RecommendationListProps> = ({ recommendations
                     ) : (
                         <>
                             <div className="grid grid-cols-1 gap-6">
-                                {currentItems.map((rec) => (
+                                {currentItems.map((rec: Recommendation) => (
                                     <div key={rec.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow ring-1 ring-black/5">
                                         {/* Header */}
                                         <div className="px-6 py-4 border-b border-gray-100 flex justify-between items-start bg-gradient-to-r from-gray-50/50 to-white">
