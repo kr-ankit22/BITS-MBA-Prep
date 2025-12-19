@@ -8,22 +8,6 @@ interface CompanyLogoProps {
 
 const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) => {
     const [error, setError] = useState(false);
-    const [proxyUrl, setProxyUrl] = useState<string | undefined>(url);
-
-    useEffect(() => {
-        if (url && url.includes('logo.clearbit.com')) {
-            // Extract domain from Clearbit URL
-            const domain = url.replace('https://logo.clearbit.com/', '');
-
-            // Use proxy function in production, direct URL in development
-            const isProduction = window.location.hostname !== 'localhost';
-            if (isProduction) {
-                setProxyUrl(`/.netlify/functions/logo-proxy?domain=${encodeURIComponent(domain)}`);
-            } else {
-                setProxyUrl(url);
-            }
-        }
-    }, [url]);
 
     // Generate initials
     const getInitials = (name: string) => {
@@ -47,10 +31,10 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) 
     // Predefined nice colors to pick from instead of random hex
     const getNiceColor = (str: string) => {
         const colors = [
-            'bg-red-500', 'bg-orange-500', 'bg-amber-500', 'bg-yellow-500',
-            'bg-lime-500', 'bg-green-500', 'bg-emerald-500', 'bg-teal-500',
-            'bg-cyan-500', 'bg-sky-500', 'bg-blue-500', 'bg-indigo-500',
-            'bg-violet-500', 'bg-purple-500', 'bg-fuchsia-500', 'bg-pink-500',
+            'bg-red-500', 'bg-orange-500', 'bg-amber-500', 'bg-yellow-500', // Warm
+            'bg-lime-500', 'bg-green-500', 'bg-emerald-500', 'bg-teal-500', // Cool
+            'bg-cyan-500', 'bg-sky-500', 'bg-blue-500', 'bg-indigo-500', // Blue-ish
+            'bg-violet-500', 'bg-purple-500', 'bg-fuchsia-500', 'bg-pink-500', // Pink-ish
             'bg-rose-500'
         ];
         let hash = 0;
@@ -60,7 +44,8 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) 
         return colors[Math.abs(hash) % colors.length];
     };
 
-    if (!proxyUrl || error) {
+    // If no URL provided or image failed to load, show initials
+    if (!url || error) {
         return (
             <div className={`${className} ${getNiceColor(name)} flex items-center justify-center text-white font-bold shadow-sm`}>
                 <span className="text-lg tracking-wider">{getInitials(name)}</span>
@@ -68,9 +53,10 @@ const CompanyLogo: React.FC<CompanyLogoProps> = ({ url, name, className = '' }) 
         );
     }
 
+    // Direct render of URL (local path or explicit https URL)
     return (
         <img
-            src={proxyUrl}
+            src={url}
             alt={name}
             className={`${className} object-contain bg-white`}
             onError={() => setError(true)}
