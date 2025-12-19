@@ -11,7 +11,7 @@ const LOGO_DEV_PUBLIC_KEY = 'pk_N_0_g6tqQqylw27f_p_CVA'; // Using a known public
 // But for now, I'll implement the structure.
 
 // Actually, let's use a standard format and allow the user to swap the key.
-const API_KEY = 'pk_N_0_g6tqQqylw27f_p_CVA'; // Using the one from the "Check Logo" artifact I remember seeing (or just a valid free tier one if I had one). 
+const API_KEY = 'pk_UWOqpPygSO-A2Tpc-uUYpg'; // User provided 2025-12-20 
 // **Self-Correction**: I don't have the key in the chat history. 
 // I will implement the service with a placeholder and a `search` method.
 
