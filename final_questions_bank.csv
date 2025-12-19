@@ -1,0 +1,333 @@
+Company,Domain,Role,Topic,Difficulty,Question,Ideal_Approach,Asked_In_BITS
+Abbott,Healthcare Analytics,Data Science Intern,Technical,Medium,"Scenario: You have a list of doctor names and addresses in Excel. How do you validate if the addresses are correct?","Use Google Maps API or medical registry databases for validation. Automate with PythonScript/Pandas or Excel VBA.",Yes
+Abbott,Healthcare Analytics,Data Science Intern,Technical,Medium,"How would you automate updating data from Excel to a PowerPoint presentation on a monthly basis?","Use Python libraries like `python-pptx` and `pandas`, or VBA macros to link Excel ranges to PowerPoint slides.",Yes
+Abbott,Healthcare Analytics,Data Science Intern,Technical,Medium,"How do you handle missing values in a dataset?","Imputation (Mean/Median/Mode), KNN imputation, deleting rows (if insignificant), or predicting values using regression.",Yes
+Abbott,Healthcare Analytics,Data Science Intern,Technical,Medium,"Compare two datasets using Pandas.","Use `df.compare()`, `df.equals()`, or merge/join with indicator=True to find diffs.",Yes
+Accenture AIOC,Telecommunications,Marketing Analytics,Technical,Medium,"What is the coefficient of determination (R-squared)?","It shows how well independent variables explain the variation in the dependent variable; value ranges from 0 to 1 (higher = better fit).",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What is an F-test?","It checks if the regression model is statistically significant; i.e., if at least one predictor meaningfully explains the dependent variable.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What is Monte Carlo simulation?","A technique that uses random sampling and repeated computations to estimate probabilities or outcomes of uncertain events.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What are precision and recall?","Precision = Correct Positives / Total Predicted Positives. Recall = Correct Positives / Total Actual Positives. Precision is about accuracy, recall is about completeness.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What are window functions in SQL?","SQL functions that perform calculations across a set of related table rows (e.g., running totals, ranks, moving averages).",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What is imbalanced data?","A situation where classes or labels are not equally represented (e.g., 95% Negative, 5% Positive).",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"Why does imbalanced data matter?","High accuracy can hide poor detection of the minority (often more important) class, making the model useless for rare but critical targets.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"How do you tackle imbalanced data?","Techniques include oversampling (e.g., SMOTE), undersampling, or using specific loss functions.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"How many types of joins are there in SQL and what is an inner join?","Common joins: Inner, Left, Right, Full Outer, Cross. Inner join returns only matching rows present in both tables.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What is the use of SUMIFS in Excel?","It adds numbers in a range based on multiple specific criteria or conditions.",Yes
+Accenture AIOC,Marketing Analytics,Data Science Sr Analyst,Technical,Medium,"What is the difference between ARIMA and SARIMA?","ARIMA is for non-seasonal data; SARIMA adds support for seasonality (fixed repeating patterns like monthly or quarterly).",Yes
+Aditya Birla Management Corp.,Healthcare,Data Automation, Data Science Intern,Behavioral,Medium,"Describe a challenging project and how you overcame obstacles.","Use STAR method. Highlight problem-solving skills and resilience.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"How do you handle working with cross-functional teams?","Emphasize communication, collaboration, and ability to bridge technical and non-technical gaps.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"Tell me about a time you used data to solve a business problem.","Provide a specific example where data analysis directly led to a solution or improvement.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"Tell me about yourself.","Short professional summary known as 'elevator pitch'.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"Walk me through your resume, focusing on analytics or data-driven projects.","Detail your role, tools used, and the outcomes of the projects mentioned.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"What are your long-term career goals in analytics?","Discuss aspirations for leadership or specialized expertise in analytics.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"What motivates you to work in the analytics field?","Express enthusiasm for discovering insights and influencing strategy through data.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"Why MBA?","Explain how an MBA complements your technical skills and prepares you for management.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"Why are you interested in our company and this role?","Show knowledge of ABG's diverse portfolio and strategic initiatives.",Yes
+Aditya Birla Management Corp.,Corporate Strategy,Data Analytics Intern,Behavioral,Medium,"Why did you choose Business Analytics as your specialization?","Highlight the growing importance of data in decision making.",Yes
+EY,Consulting,Tech Assurance,Behavioral,Medium,"Tell me about a situation at work for which you got appreciation.","STAR method. Focus on going above and beyond, or solving a critical/time-sensitive problem.",Yes
+EY,Consulting,Tech Assurance,Behavioral,Medium,"How did you handle conflicts/timeline delays during your projects?","Proactive communication, renegotiating scope/deadlines, allocating extra resources, and keeping stakeholders informed.",Yes
+Guidewire Software,Consulting,Digital Risk, Tech Assurance,Behavioral,Medium,"Describe a challenging project and how you overcame obstacles.","Use STAR method. Highlight technical challenges and collaborative solutions.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"How do you handle working with cross-functional teams?","Focus on communication across engineering, design, and business units.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"Tell me about a time you used data to solve a business problem.","Showcase decision-making based on metrics and user data.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"Tell me about yourself.","Professional introduction tailored to product management and tech.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"Walk me through your resume, focusing on analytics or data-driven projects.","Highlight projects involving product metrics, SQL, or user behavior analysis.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"What are your long-term career goals in analytics?","Connect interest in data with product leadership aspirations.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"What motivates you to work in the analytics field?","Discuss the power of data to reveal insights and drive product strategy.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"Why MBA?","Explain the desire to bridge technical skills with business strategy.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"Why are you interested in our company and this role?","Mention Guidewire's position in the P&C insurance industry and software leadership.",Yes
+Guidewire Software,InsurTech,Product Manager Intern,Behavioral,Medium,"Why did you choose Business Analytics as your specialization?","Express interest in making informed, data-backed business decisions.",Yes
+HSBC,Finance,Analyst,Finance,Medium,What is the Inventory Turnover Ratio formula and how do you interpret it?,Explain formula (COGS / Avg Inventory) and implies efficiency of sales.,Yes
+HSBC,Finance,Analyst,Finance,Medium,Explain the Cash Conversion Cycle formula and its interpretation.,Days Inventory Outstanding + Days Sales Outstanding - Days Payable Outstanding.,Yes
+HSBC,Finance,Analyst,Finance,Medium,List the fundamental Principles of Accounting.,"Mention accrual, consistency, prudence, going concern, entity concept.",Yes
+HSBC,Consulting,Analyst,Guesstimate,Medium,Estimate the number of Two-Wheelers sold annually in India.,Population -> Target Segment -> Income Levels -> Replacement vs New Demand.,Yes
+HSBC,General,Analyst,Behavioral,Medium,How do you measure the performance of a team or individual in banking operations context?,"Mention KPIs like accuracy, turnaround time (TAT), customer satisfaction, and error rates.",Yes
+HSBC,Finance,Analyst,Finance,Medium,What metrics indicate effective revenue generation for a bank?,"NIM (Net Interest Margin), Fee-based income, Loan book growth, CASA ratio.",Yes
+HSBC,Product,Analyst,Product Management,Medium,Explain the concept of 'Share of Wallet' in banking.,Percentage of a customer's total spend/assets held with us vs competitors.,Yes
+HSBC,General,Analyst,General Awareness,Medium,What are the key products offered by HSBC?,"Retail Banking, Wealth Management, Commercial Banking, Global Banking & Markets.",Yes
+HSBC,Finance,Analyst,Finance,Medium,What is the difference between Market Risk and Credit Risk?,Market: Losses due to market factor movements. Credit: Default by counterparty.,Yes
+HSBC,Analytics,Analyst,General Awareness,Medium,Is AI a job creator or a job destroyer?,"Discuss automation vs augmentation, new roles created (ML Ops) vs redundant routine tasks.",Yes
+HSBC,Finance,Analyst,Finance,Medium,Differentiate between Systematic and Unsystematic Risk.,Systematic: Market-wide (non-diversifiable). Unsystematic: Company-specific (diversifiable).,Yes
+HSBC,Analytics,Analyst,SQL,Medium,Explain the concept of Binning in SQL.,Using CASE statements to categorize continuous variables into groups.,Yes
+HSBC,Analytics,Analyst,Python,Medium,How do you access the 5th row and 3rd column of a dataframe in Pandas?,"df.iloc[4, 2]",Yes
+HSBC,Analytics,Analyst,Python,Medium,How do you append two dataframes in Python?,"pd.concat([df1, df2]) or df1.append(df2) (deprecated).",Yes
+HSBC,Analytics,Analyst,Python,Medium,What happens to the columns if you join a dataframe with 5 columns and another with 7 columns?,"Depends on join type, generally 5+7 = 12 columns if no overlap/suffix handling.",Yes
+HSBC,Finance,Analyst,Finance,Medium,What are Derivatives in finance?,"Contracts deriving value from underlying assets (Options, Futures, Swaps).",Yes
+HSBC,Finance,Analyst,Finance,Medium,Why is a Mutual Fund called 'Mutual'?,Pooled money from many investors mutually shared for returns/risks.,Yes
+Kyoren Labs,Healthcare,Business Analyst,Strategy,Medium,"Situation: How would you approach a new product launch from a data collection and strategy standpoint?","Define KPIs -> Identify Data Sources (Primary/Secondary) -> Set up Tracking (Google Analytics/Mixpanel) -> Feedback Loop strategy.",Yes
+Kyoren Labs,Healthcare,Business Analyst,Strategy,Medium,"Develop a pricing strategy for new skin care products using industry analysis.","Competitor Price Benchmarking -> Cost-Plus vs Value-Based Pricing -> Psychology of pricing (premium vs mass market).",Yes
+LenDen Club,Product Management,Product Intern,Technical,Medium,"What are the top 3 features of your most used app, and what improvements would you suggest?","Product Critique Framework: Define the app, user persona, and goal. Analyze features (pros/cons). Suggest metric-driven improvements.",Yes
+LenDen Club,Product Management,Product Intern,Technical,Medium,"Identify potential users for this app (apart from you) and how you would solve their problems.","User Segmentation: Demographic/Psychographic. Pain point analysis. Solutioning with feature mapping.",Yes
+LenDen Club,Product Management,Product Intern,Behavioral,Medium,"What do you think a Product Manager's day-to-day looks like?","Mention mix of: Standups, Stakeholder communication (Eng/Design), Data analysis, User research, and Documentation (PRDs).",Yes
+LenDen Club,Digital Marketing,Marketing Intern,Technical,Easy,"What is a backlink?","A link from one website to another. Crucial for SEO authority and ranking.",Yes
+LenDen Club,Digital Marketing,Marketing Intern,Technical,Medium,"What is SEO and what are some popular tools?","SEO: Optimizing visibility. Tools: SEMrush, Ahrefs, Google Search Console, Moz.",Yes
+MiQ,Consulting & Data Science,Decision Science Consulting Intern,Technical Assessment,, Python 2 Basic DSA Questions on BFS/DFS,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, SQL MCQ Questions,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, Basic Statistics & Aptitude Questions,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Walk me through your work ex,Explained Work ex in detail,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Walk me through your projects,Explained projects in detail,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Ola's Business is stagnating. How would you revive it.,Did data analysis and general discussion,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Walk me through your projects,Explained projects in detail,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,," Here is this product (shows image), how would you advertise it?",Applied S.T.P Framework to answer,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,," Here is this product (shows other image), how would you advertise?",Applied S.T.P Framework,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Explain any Conflict of Interest Situation,Answered,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Who is your source of Inspiration?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Any role where you had to take a leadership position,Answered,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, What made you interested in applying for MIQ,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical test,, Python: Write code,Wrote code,
+MiQ,Marketing Analytics,Senior Analyst,Technical test,, Python: Questions based on Dictionary,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical test,, SQL: Questions based on Window Functions,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical test,, Statistics: Find out the variance,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical test,, Statistics: Multicollinearity,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical test,, Logical Reasoning questions,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Test,, Find the odd man out,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Test,, Complete the sequence,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Test,, Describe the images,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Test,, Describe the video,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Question about my day and education,Told,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,," Questions about the test, basically more about stats",Told,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,," SQL Query writeups (one basic, 2 window based)",Difficulty with one window function ques,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,,Guesstimate: iPhone sales in China,I reached to the conclusion of 1M,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,,Python Questions like difference between 5/2 and 5//2,"Struggled; no deep Python background, just analytics",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,,"Write SQL queries (joins, filtering, grouping, aggregation)","Explained and demonstrated various joins, WHERE, GROUP BY, etc.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, LinkedIn Club funnel conversion rate improvement method,"Outlined root-cause analysis, RICE framework usage, implemented changes",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,,(Python): Write code to reverse a string and to find the most frequent word in a given sentence.,For string reversal: slicing method (string[::-1]); for frequent word: Python�s collections.Counter class,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,," (Statistics): Explain difference between mean, median, mode, define standard deviation, effect of shifting dataset","Mean is average, median is middle value, mode is most frequent; standard deviation measures spread, shifting data affects mean, not variance or SD",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,,(Analytical Thinking): Suppose I want to launch a new feature. How would you approach it?,"Define objective/success, research user insights, prioritize (RICE), MVP design, and plan A/B testing",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, (Guesstimate): Estimate t-shirts sold on Amazon in Bangalore,"Segmented by population, online shoppers, Amazon share, category, frequency; arrived at ballpark estimate",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,," (SQL): Write queries (joins, LEAD/LAG, cumulative sum)","Explained different joins, used window functions, demonstrated cumulative SUM()",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,, (SQL � Conceptual): Prove Outer Join + Inner Join = Left Join + Right Join.,Proved using Venn diagram set representation,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,, (Python): What is the difference between NumPy and Pandas?,"NumPy for numerical arrays/matrices; Pandas for tabular, structured data (DataFrames/Series)",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,,(Python Workflow): How would you analyze a large-scale dataset?,"Define problem, clean data, handle nulls, perform EDA before modeling",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,, (Python Data Handling): Convert categorical to numerical data,"Explained One-Hot Encoding, label encoding, and embeddings",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,, (Evaluation Metrics): How do you evaluate model performance?,"Use confusion matrix, derive accuracy, precision, recall, F1-score",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,," (Career Aspirations): 5-year plan, Product vs Data Analyst","Expressed interest in Product Analyst role, open to Senior Analyst as foundation",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,," (Time Series): Explain ARIMA, SARIMA, GARCH","ARIMA � stationary, SARIMA � seasonal, GARCH � volatility modeling",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,," (ARIMA Details): What do P, D, Q stand for?","P: autoregressive order, D: differencing order, Q: moving average order",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round 2,, (Managerial): Why choose MBA in Business Analytics?,"Described aligning business/data skills, career goals toward Product Analyst",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Why do you want to be a Senior Analyst at MIQ?,"Explained interest in analytics and business value, highlighted fit for MIQ",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,,What do you know about MIQ? How did you hear about MIQ?,"Explained MIQ�s advertising/data, learned via placement, networking",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,,Are you excited about joining MIQ?,"Yes, described company�s reputation and fit with career aspirations",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,,Define yourself in three words,"confident, adaptative, patient",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, How do you make time for other activities?,"Manages time, prioritizes, shared experience (silver medal won)",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Handling high-priority work and other tasks,"Reprioritize, communicate clear, focus on critical first, efficient planning",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Which web series are you watching lately?,"Shared series, made interview conversational",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, You are given a table containing data of students and another table having data of new students. Identify the names of students who belong to Section A.,"I wrote an SQL query using a subquery to identify the names of students belonging to Section A. Using those names, I picked out the matching records from the parent table.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, There are two tables � Orders and Customers. Find the customer name and the time of their first purchase.,"I solved this using the RANK() function. I ranked the dates in ascending order, partitioned by customer, and used LIMIT 1 to select the first purchase date for each customer.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, Python question: Reverse a string.,Str[::-1],
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, SQL: Group the data and then filter rows using HAVING clause.,I wrote an SQL query using GROUP BY and applied the HAVING clause to filter aggregated results.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,," Ten features for an app, limited time. How to handle?","Used the MoSCoW method (Must have, Should have, Could have, Won�t have) to prioritize features based on business value and time constraints.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, Estimate iPhones sold in China.,"Segmented population by rural/urban, age groups, applied �brand love� matrix, calculated share leaning toward iPhone�reached estimate using structured approach.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, Explain work experience.,Explained work experience and answered follow-up questions about projects and responsibilities.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Introduce yourself.,"Gave brief background about education, skills, and work experience.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Explain work experience.,Explained experience in detail and responded to counter-questions about responsibilities and learnings.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Ola�s revenue is decreasing; provided dataset. Main reason and suggestions?,"Identified cancellation hotspots and peak hours to improve cab frequency and customer satisfaction, suggested ways to increase revenue.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Count number of items using Python.,Used collections.Counter to count item frequencies.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Difference between NumPy and Pandas?,"NumPy for numerical computations/homogeneous data, Pandas for tabular/heterogeneous data manipulation, handling missing values.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Difference between List and Tuple in Python?,"Lists are mutable, Tuples are immutable.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Convert categorical values to numerical values?,Explained One-Hot Encoding and other methods based on types and use case.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Multiple SQL (2�3) and Python (1�2) questions.,Wrote queries and solved all problems given.,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview Round,, Introduce yourself.,"Introduced academic background, work experience, MBA specialization.",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview Round,, Swap position with anyone�who and why?,"Chose Prime Minister of India; inspired by leadership and welfare-oriented decisions, bold decision-making.",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview Round,, Why do you want to join our company?,"Prior analytics experience, seeking growth and leadership in analytics via MIQ, eager to drive initiatives and align goals with organization�s vision.",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview Round,, Why pursue MBA?,"Wanted to expand skills, increase opportunities, MBA in analytics provides both technical and managerial growth.",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview Round,, Any questions for us?,Asked about how AI is being leveraged at MIQ Digital.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, Python Question- Find the output,Wrote python code as per instructions and found the expected output,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, SQL MCQ/Window Function,Answered the MCQ and wrote a SQL query using window function,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, Statistics/Variance,Explained the concept of variance and methods for calculating it,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Explain about your project experience and learnings,"Discussed past analytics projects, explaining impact, learning, and problem-solving applied in each",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Guesstimate- Ola cab rides/daily city,Used segmentation logic for estimating daily cab rides in the city,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,," SQL Query using join, subquery, ranking",Constructed a SQL query with JOIN and used ranking/window functions to solve,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Product improvement for an app,Proposed app feature enhancements and explained steps for roll-out/impact measurement,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Python: Write code for reversing string,Used slicing operation (string[::-1]) and explained logic,
+MiQ,Marketing Analytics,Senior Analyst,Managerial/HR Interview,, Why do you want to join MIQ?,Shared alignment with MIQ�s data-driven roles and my analytics/business background,
+MiQ,Marketing Analytics,Senior Analyst,Managerial/HR Interview,, Tell me about a time you worked under a deadline,Shared a deadline-driven project experience describing approach and outcome,
+MiQ,Marketing Analytics,Senior Analyst,Managerial/HR Interview,, How do you handle feedback and failure?,Described taking feedback as constructive and shared example of turning failure into learning,
+MiQ,Marketing Analytics,Senior Analyst,Managerial/HR Interview,, Any questions for us?,Asked about organization�s learning and growth opportunities,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, Python MCQ/Code,Answered Python MCQ and wrote code as per requirements,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,, SQL MCQ/Window Functions,Solved SQL MCQ and wrote query using window functions,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment,," Statistics Concepts: Variance, mean, median",Explained each statistic and solved calculation-based question,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Work experience and projects,"Discussed major analytics projects, responsibilities, and impact",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, SQL Join-based query,Wrote a multi-table SQL query with join and explained all steps,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Product improvement for an e-commerce app,Proposed UI/feature improvements and explained decision logic,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Python question: Find palindromes in a list,"Wrote a function, explained use of string reversal and conditionals",
+MiQ,Marketing Analytics,Senior Analyst,HR/Managerial Interview,, Why MIQ?,Discussed interest in analytics and MIQ�s global presence and culture,
+MiQ,Marketing Analytics,Senior Analyst,HR/Managerial Interview,, Handling conflicts and feedback,Shared specific example and approach to resolving stakeholder conflict,
+MiQ,Marketing Analytics,Senior Analyst,HR/Managerial Interview,, Tell me about a time you worked in a team,Shared experience with teamwork and result,
+MiQ,Marketing Analytics,Senior Analyst,HR/Managerial Interview,, Any questions for us?,Asked about company vision and future plans,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,,Asked about Work ex in JSW Steel,Explained,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,,Tell me about Yourself,Told,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,, Asked about any one of the project mentioned,"Told about the GARCH(1,1) project",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,,"Asked about GARCH(1,1) Model",Explained,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,,Asked to correct the SQL code in earlier assessment,Done,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,,Difference between numpy and pandas,Told,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,,What is time series,Told,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,, What is difference between SARIMA and Holt's Winter?,Told,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,, Root cause + measures?,Gave 5 solutions,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,,"Guesstimate: Kissan Jam launching Mango Jam, strategy to market it",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,,Why do you want to work at MiQ?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,, Are you comfortable with that?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,,How comfortable are you with PySpark?,Told,
+MiQ,Marketing Analytics,Senior Analyst,HR Round,, Tell me about Yourself,Answered,
+MiQ,Marketing Analytics,Senior Analyst,HR Round,,What was your greatest achievement in past one year?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,HR Round,, How will you handle when any person in your team disagrees with your idea?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,HR Round,, What message would you like to give to your juniors?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Online,, Write a Python code to get Excel column number from name,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Online,," Write Python code: shortest distance in tree with parent n, children 2n, 2n+1",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Online,," Python, Statistics, DILR, SQL MCQs",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Ability Assessment,," Find the odd pattern out (25 questions, each 3 seconds)",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Ability Assessment,," Pattern matching (15 questions, each 5 seconds)",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Ability Assessment,, Image - Perception in words,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Cognitive Ability Assessment,, Video - Perception in words,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Offline,," Write about Standard Deviation, Mean, Mode, and Median in plain English",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Offline,," Couple of aptitude questions: Speed and Time, Profit and Loss, etc.",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Offline,," Python, Statistics, and SQL MCQs",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, Why Analytics from Core Development (previous work ex)? Why not Product?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, Tell me all about yourself (elaborate),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, What do you do outside college/interviews?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, What Python packages do you work with?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,," Numpy vs Pandas, Matplotlib vs Plotly",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, Decompose Time Series,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, Difference between Seasonality and Cyclicity (Example),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 1,, Guesstimate,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 2,, SQL code for given data/question (3�5 questions),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 2,, How do you reverse a string in Python?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 2,, Guesstimates (8�10 questions),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 2,, Explain insights from your projects,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Interview Round 2,, Favorite subject and why?,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, Asked for Introduction,"I gave my introduction, covering my education, internship experience, club activities, and hobbies.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,," Logical Reasoning: 11 balls, one heavier, minimum weighings to guarantee finding it?","After some clarifying questions and discussion, I concluded that the answer is 3.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,," Swiggy dataset with timestamp, location, restaurant, cancel status, revenue, etc. Revenue is declining; suggest two strategies to increase revenue.","Suggested K-means clustering to identify declining localities and offer targeted incentives (coupons). Proposed logistic regression to predict cancellations, address high-risk customers, and reduce churn to improve revenue.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, How would you handle categorical variables using NumPy in Python?,Explained encoding categorical variables into numerical values using pd.get_dummies in Pandas.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, How does K-means clustering work & how do you decide the number of clusters?,K-means forms centroids; related values are clustered. Number of clusters decided by the elbow curve.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, What are the values on x & y axis of elbow curve?,Was unable to answer and stated I couldn�t recall at that moment.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Design KPIs as director business intelligence of Flipkart,"Segregated KPIs as customer centric, financial level, growth aspect and operational level and expanded on them",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Explain the crypto project based on time series modelling.,"Prepared well, knew mostly about it and explained it well",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Why not SARIMA or Autoregression,Because I was generating short term trading signals so seasonality will not play any role,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Accuracy and confusion matrix for the project,"Minimized drawdown; in finance, even with 60% directional accuracy you can beat the market if you can minimize the loss",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Walk me through the financial wellness app you are building,"Showed prototype, received feedback, good 10 minutes discussion",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, A question sql subquery,"Standard subquery question wrote on the spot, also explained execution order of SQL functions",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Implement joins on A-(A intersection B),Fumbled in implementation a bit but explained using Venn diagram and told approach,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Logical error vs syntax error,Defined both with examples,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Question on my internship,"Explained in detail, answered cross questions",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Case study on declining Stanley cups,"Broke down problem by parameters, provided solutions (marketing class knowledge handy)",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, How would you target and segment specific audience,Spoke about Google Ads analytics for identifying target customers/segments,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, How will you identify apt communication channels,"Based on segments; figured out proper channels, mainly Instagram for me",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, How to identify right Insta influencers,Used lifestyle influencer category as apt for the campaign,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Time series project,Well prepared,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,," Differencing, log transformation, box-cox","Explained from time series class, significance of each",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, No code tools,"Mentioned Lovable, Bolt, likes Gen AI so did not face difficulty",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Best coding tool for fewest errors,"Named Claude, compared with others",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, LLMs quality improvements,Discussed rise in creative benchmarks,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, LLM vs SLM,"Explained SLMs are efficient, can help agentic AI further",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Gen AI in marketing analytics,Related AI use cases with analytics,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Rate yourself in python,Rated 3.5 out of 5,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Are you open to learn pyspark,"Mentioned big data elective and coverage of tools like Pyspark, Amazon S3",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Why do you want to join MiQ,"Standard HR answer, personalized with intern experience and real scenarios",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Time when you showed leadership,"Standard HR answer, personalized with intern experience and real scenarios",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Time when you took initiative,"Standard HR answer, personalized with intern experience and real scenarios",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Where are you from,"Standard HR answer, personalized",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Work timings of my internship,"Standard HR answer, personalized",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, As a senior analyst how would you resolve conflict,"Standard HR answer, personalized",
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, How would you handle impossible deadline,"Standard HR answer, personalized",
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Basic questions in resume that interviewer didn�t understand or was curious about,"Answered it, about internship and projects.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,," 2 tables given (customers, orders): SQL query to find top 2 cities by amount",Wrote the code,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Python code to reverse a string,Wrote the code,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Difference between 5/2 and 5//2,5/2=2.5 (decimal value); 5//2=2 (integer division),
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,," Analytical solutions for why the company is losing customers (e.g., RIL)","More returns (damaged/quality issue), promised ship date not met, app issue (product shipped but not visible)",
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,," Short on time: deliver project, what critical features to put in product (e.g., Zomato)","Show customer where food is, keep only one payment mode, limit ordering area",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,, Python,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,,SQL,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,,Stats,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 1,,LRDI,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,,SQL window Functions,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,,SQL query order,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,,Subqueries,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Python Syntax,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,,Resume Projects,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Stats and Hypothesis testing in Power Bi,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,,"Data Manipulation, Handling and Cleaning",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Time Series,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round 2,, Scenario based question,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, 4 MCQ questions on Python followed by a descriptive coding ques on Python,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, 4 MCQ questions on SQL followed by a descriptive coding ques on SQL,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,," What is mean, median, mode?",Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, What is standard deviation?,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, What is variance?,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,," 2 logical reasoning ques on STD (speed, distance, time)",Solved them,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Can you walk me through your resume quickly?,"Introduced myself, mentioned past work ex, internships, and projects",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Why did you switch from Marine Engineering to Business Analytics?,Gave the prepared answer,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Explain your fav project which you did in MBA?,"V-fast booking automation under Dean administration, use of no-code tools",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Explain this Walmart project for me,"Explained project, tools/libraries used, insights from analysis",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, What would you rate yourself in Python and SQL?,7,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,," Table with date and sales, write SQL code for sales every 6th occurrence",Wrote on paper as best as possible,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,," Arrange SQL functions (select, join, limit, etc.) in order of execution",Wrote them accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Calculate total sales of protein powders in Pilani,Guesstimate; used bottom-up approach,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Diff between list and tuple?,Answered accordingly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Which takes less memory�list or tuple?,Tuple (shadow memory),
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, What is shadow memory?,Could not remember at the time,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,," Python: create a class to get output ""Mercedes S-Class 2017""","Used class, def, self to write the code",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,," What does self function do, can code be more optimized without self?",Explained self; attempted more optimized code,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,," Difference between numpy, pandas",I told them clearly,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Difference between list and tuples,I answered well,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, What is OOPs and one code in OOPs,I wrote a partially right code,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Formula of cosine similarity,I gave right answer,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, List comprehension question,I solved it on paper,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, MySQL functions and differences,I answered clearly all types of functions,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Explain projects,I explained in detail,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, Explain subjects,I explained clearly,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,," 5 balls, one heavier, minimum balance weighings",2,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Interview,, What is AWS architecture,Don't remember the answer,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,," Tell me about your family, hobby, UG, coming from",I answered all of these,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, Tell me one thing you like/dislike about BITS,Told them,
+MiQ,Marketing Analytics,Senior Analyst,HR Interview,, How to handle conflicts,"Collaboration, transparency, empathy",
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Which clause is used for filtering after aggregation?,WHERE,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, What is data cleaning used for mainly?,"Removing duplicates, missing values etc.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, Explain ANOVA in very simple terms for someone with no statistics,ANOVA is basically Analysis of Variance. Used when more than two independent groups exist and their statistical means differ.,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview Round,, What is stationarity?,"When a time series model has constant mean, variance, and autocorrelation, then it is called a stationary time series.",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,, About my resume & project mentioned,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,," About Topic modelling (LDA), concept behind it","Explained about the pipeline including count vectorization, TF-IDF (worked out on paper with example)",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,," 3-4 SQL questions, asked to write code","Used groupby clauses, joins, and correlated nested queries according to each query",
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,, Python: Extract substring from strings,Used slicing operator,
+MiQ,Marketing Analytics,Senior Analyst,Technical Round,, Python OOPs: Print Fibonacci series using class/object,"Used class, created object, called function (object.fibonacci()), wrote logic for Fibonacci series",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,, Questions on Resume,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,, Guestimate: Monthly global chilli consumption (population values provided),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,," Puzzle: 8 balls, one defective (heavier), minimum weighings to find the defective ball","Solved, got the answer as 3 (which is correct)",
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,," Situational questions (placed in situational scenarios, asked responses)",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Managerial Round,, Internship experience in Aditya Birla,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Python - Dictionary MCQS,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Python coding: Find shortest path in BST with root node as 1,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Python Coding: Actual column no. of Excel column names,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, SQL questions (Window functions),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Statistics (basics),Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Assessment Round,, Data Interpretation,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Psychometric Assessment,, Pattern matching,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Psychometric Assessment,, Cognitive and critical thinking,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Psychometric Assessment,, English Skills,Answered,
+MiQ,Marketing Analytics,Senior Analyst,On-campus Assessment,, Python very basics,Answered,
+MiQ,Marketing Analytics,Senior Analyst,On-campus Assessment,, SQL basics,Answered,
+MiQ,Marketing Analytics,Senior Analyst,On-campus Assessment,, Statistics basics,Answered,
+MiQ,Marketing Analytics,Senior Analyst,On-campus Assessment,, Aptitude basics,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Work-Ex explanation,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,," Python coding: Retrieval from DataFrame, first 4 letters from a column, slicing",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,," SQL: Rolling sum of sales, weekly sum from sales data",Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Why analytics,Answered,
+MiQ,Marketing Analytics,Senior Analyst,Technical Interview,, Project specific explanations,Answered,
+Mitigata,InsurTech,Founder's Office Intern,Strategy,Hard,"Design a Go-To-Market (GTM) strategy for a new domain/product.","Target Audience -> Value Proposition -> Channels (Sales/Marketing) -> Pricing -> Launch Timeline -> Metrics (KPIs).",Yes
+Mitigata,InsurTech,Founder's Office Intern,Behavioral,Medium,"What do you understand by the responsibilities of a Founder's Office role?","Cross-functional execution, strategic initiatives, special projects, and being a force multiplier for the founders.",Yes
+Moody's Analytics,Financial Services,Structured Finance,Behavioral,Medium,"Describe a challenging project and how you overcame obstacles.","STAR method. Highlight financial modeling or data integrity challenges.",Yes
+Moody's Analytics,Financial Services,Structured Finance,Behavioral,Medium,"Why are you interested in our company and this role?","Mention Moody's dominance in credit ratings and analytics software.",Yes
+Noccarc Robotics,MedTech,Market Research Intern,Behavioral,Medium,"Why did you choose Business Analytics as your specialization?","To bring data rigor to market research and strategy in critical industries.",Yes
+Noccarc Robotics,MedTech,Market Research Intern,Behavioral,Medium,"Describe a challenging project and how you overcame obstacles.","STAR method. Highlight adaptability and research challenges.",Yes
+Raaz App,Technology,Business Analyst,Behavioral,Medium,"Tell me about yourself.","Short professional intro focusing on app dynamics and analytics.",Yes
+Raaz App,Technology,Business Analyst,Behavioral,Medium,"How do you prioritize features for a mobile app?","RICE framework (Reach, Impact, Confidence, Effort) or MoSCoW method.",Yes
+Sodexo,Services,Operations Intern,Behavioral,Medium,"Why Sodexo?","Focus on their Quality of Life services and global scale.",Yes
+Sodexo,Services,Operations Intern,Behavioral,Medium,"Describe a situation where you had to deal with a difficult client.","Empathy, active listening, and finding a win-win solution.",Yes
+Tata Capital,Financial Services,Financial Analytics,Technical,Medium,"Explain SLR (Simple Linear Regression) and Multi-collinearity.","SLR: Relation between one dependent and independent variable. Multi-collinearity: When independent variables are highly correlated, skewing results (check VIF).",Yes
+Tata Capital,Financial Services,Financial Analytics,Technical,Medium,"What are the different types of SQL joins? Explain their significance.","Inner (matching), Left (all left + matching right), Right (all right + matching left), Full (all), Cross (Cartesian). crucial for combining data tables.",Yes
+Tata Capital,Financial Services,Financial Analytics,Technical,Medium,"What is the difference between an NBFC and a Bank?","NBFCs cannot accept demand deposits (checks) and are not part of payment settlement system. Banks are more regulated under Banking Regulation Act.",Yes
+Tata Capital,Financial Services,Financial Analytics,Technical,Medium,"Scenario: Identify the top 5 customers who have the maximum debit in a transaction dataset.","SQL: `SELECT customer_id, SUM(debit_amount) FROM transactions GROUP BY customer_id ORDER BY SUM(debit_amount) DESC LIMIT 5;`",Yes
+Tata Capital,Financial Services,Financial Analytics,Technical,Medium,"What is Interest Discount?","Reduction in interest rate offered to preferred customers or during promotions to increase loan uptake.",Yes
+Taurus Mutual Funds,Finance,Equity Research Intern,Technical,Medium,"What factors do you consider before investing in a stock?","Fundamental analysis (P/E ratio, debt, management) and macroeconomic factors.",Yes
+Taurus Mutual Funds,Finance,Equity Research Intern,Behavioral,Medium,"Tell me about a time you made a mistake in your analysis.","Admit the mistake, explain how you fixed it, and what you learned to prevent recurrence.",Yes
+Vodafone-Idea,Telecom,Data Analyst,Behavioral,Medium,"How do you explain complex technical concepts to non-technical stakeholders?","Use analogies, avoid jargon, and focus on business impact.",Yes
+Vodafone-Idea,Telecom,Data Analyst,Technical,Medium,"What is Churn Rate and why is it important in Telecom?","Churn = % of customers leaving. Critical because acquiring new customers is costlier than retaining existing ones.",Yes

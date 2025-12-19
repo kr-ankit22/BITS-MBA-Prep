@@ -1,0 +1,280 @@
+{
+  "Lenden Club": [
+    [
+      "Questions",
+      "Role"
+    ],
+    [
+      "What is backlink",
+      "SEO"
+    ],
+    [
+      "What is SEO and popular tools",
+      "SEO"
+    ],
+    [
+      null,
+      "SEO"
+    ],
+    [
+      null,
+      "SEO"
+    ],
+    [
+      null,
+      "SEO"
+    ],
+    [
+      "In The interview he asked about my work ex and my daytoday\r\nthen the most aused app itsbtop 3 features any improvements that I want in them and why\r\nalso asked my who all the users I think will use that app apart from me how will I know their problems and how will I solve it\r\nand then asked me what do i think my day to day as a PM look like",
+      "Product"
+    ]
+  ],
+  "Abbott": [
+    [
+      "technical skills - Python, R"
+    ],
+    [
+      "- python projects - details - libraries, insights,"
+    ],
+    [
+      "- R also same questions"
+    ],
+    [
+      "- work ex - what exactly was your role, dealing with clients"
+    ],
+    [
+      "- scenario questions - doctors names and address in excel sheet, to find if the address is correct or not checking from online sources"
+    ],
+    [
+      "- excel and power point is available, automate the data to be updated dynamically from the excel to the presentation on monthly basis"
+    ],
+    [
+      "- web scraping, use pandas to compare"
+    ],
+    [
+      "- what are your career aspirations"
+    ],
+    [
+      "- why did u choose this course? u were in a technical course before"
+    ],
+    [
+      "- asked about Abbott"
+    ],
+    [
+      "- handling missing values"
+    ],
+    [
+      " Next round - Case study, insisted on if they really wanted to be part of automation role"
+    ],
+    [],
+    [
+      "Scenario based questions on automation: 3 cases",
+      "Scrape data from a website/doctor's database to populate in an excel"
+    ],
+    [
+      "Create a pdf from data and email to list of stakeholders"
+    ]
+  ],
+  "Mitigata": [
+    [
+      "Take me through the Resume"
+    ],
+    [
+      "Challenges that you faced"
+    ],
+    [
+      "GTM for a new domain"
+    ],
+    [
+      "Question for the interviewer"
+    ],
+    [
+      "Assignment focussed on solving GTM for a new product in domain"
+    ],
+    [
+      "Founders Office responibilities"
+    ],
+    [
+      "What makes you a perfect fit"
+    ]
+  ],
+  "Tata Capital": [
+    [
+      "Questions"
+    ],
+    [
+      "Tell me about yourself"
+    ],
+    [
+      "Why MBA"
+    ],
+    [
+      "WHy Business Analytics"
+    ],
+    [
+      "What you have learned this semester"
+    ],
+    [
+      "Details about statistics"
+    ],
+    [
+      "SLR, multi-colinearity"
+    ],
+    [
+      "Least interested subjects"
+    ],
+    [
+      "Technical subjects"
+    ],
+    [
+      "Types of joins;Explain each join & significance of joins"
+    ],
+    [
+      "Query of joins"
+    ],
+    [
+      "Long term vision for your career"
+    ],
+    [
+      "Are you interested in Higher Studies"
+    ],
+    [
+      "Are you satisfied with the interview? Yes"
+    ],
+    [
+      "Projects"
+    ],
+    [
+      "Rate yourself on python, excel"
+    ],
+    [
+      "Why shift from Pharma to MBA?"
+    ],
+    [
+      "Regression"
+    ],
+    [
+      "NBFC vs Bank"
+    ],
+    [
+      "Products of Tata Capital"
+    ],
+    [
+      "What is interest discount"
+    ],
+    [
+      "What you are learning in first semester"
+    ],
+    [
+      "Certifications. What are your learnings"
+    ],
+    [
+      "PowerBI explain "
+    ],
+    [
+      "Introduce yourself"
+    ],
+    [
+      "projects describe"
+    ],
+    [
+      "Project cross questioning"
+    ],
+    [
+      "Work experience details"
+    ],
+    [
+      "What are the lib's and how proficient are you?"
+    ],
+    [
+      "Scenario question: Details about the bank; Customers; Top 5 customers who have max debit."
+    ],
+    [
+      "One particular project:\r\nData Source, collection strategy:\r\nData Pre-processing"
+    ],
+    [
+      "Introduce yourself"
+    ],
+    [
+      "Explain internship experience"
+    ],
+    [
+      "One particular project:\r\nData Source, collection strategy:\r\nData Pre-processing"
+    ],
+    [
+      "Correlation b/w variables"
+    ],
+    [
+      "Proficient score in python"
+    ],
+    [
+      "Scenario:\r\nDataset specific question . Modified from the project."
+    ],
+    [
+      "Difference b/w each regression"
+    ],
+    [
+      "Colinearity, Bias, CNN(ML)"
+    ]
+  ],
+  "Kyoren Labs": [
+    [
+      "Nature of questions"
+    ],
+    [
+      "CV and Projects"
+    ],
+    [
+      "Data Collection"
+    ],
+    [
+      "Situation question regarding new product launch and how to approach from a data collection and strategy standpoint"
+    ],
+    [],
+    [
+      "CV and Projects"
+    ],
+    [
+      "Work Experience details"
+    ],
+    [
+      "Explain Project in 3 points"
+    ],
+    [
+      "Situation Question:\r\nIndustry analysis project\r\nPricing strategy using new skin care products"
+    ],
+    [],
+    [
+      "Projects Explained.\r\nInternships "
+    ],
+    [
+      "Data Collection Strategies"
+    ],
+    [
+      "Launch new initiatives in healthcare industry :\r\nApproach and Data Collection"
+    ]
+  ],
+  "EY": [
+    [
+      "Questions"
+    ],
+    [
+      "Tell me about yourself"
+    ],
+    [
+      "Roles and Responsibilities at previous work-experiene"
+    ],
+    [
+      "One situation at work experience for which you got appreciation"
+    ],
+    [
+      "How did you handle conflicts during your projects "
+    ],
+    [
+      "Resume Projects and Certifications"
+    ],
+    [
+      "Situation Based project timeline delay and customer handling questions"
+    ]
+  ]
+}
