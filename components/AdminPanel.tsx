@@ -4,6 +4,7 @@ import { IconUpload, IconCheckCircle, IconX, IconDatabase, IconBriefcase, IconBo
 import { readFileContent, parseCSV, validateHeaders } from '../utils/csvHelpers';
 import { supabase } from '../services/supabaseClient';
 import * as api from '../services/api';
+import { LogoService } from '../services/logoService';
 
 
 interface UserRoleData {
@@ -384,11 +385,14 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                 const cDomain = rowForCompany ? rowForCompany[1]?.trim() : 'General';
                 const cRole = rowForCompany ? rowForCompany[2]?.trim() : '';
 
+                // ROBUST LOGO FETCHING: Use LogoService
+                const logoUrl = await LogoService.getLogoUrl(cName);
+
                 const newC: Company = {
                     id: '', // DB will assign
                     name: cName,
                     sector: cDomain || 'General',
-                    logo: `https://logo.clearbit.com/${cName.toLowerCase().replace(/\s/g, '')}.com`,
+                    logo: logoUrl,
                     description: 'Added via Bulk Upload.',
                     roles: cRole ? [cRole] : []
                 };
@@ -1047,7 +1051,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                             q.askedInBITS ? 'Yes' : 'No'
                                         ].join(','))
                                     ].join('\n');
-                                    
+
                                     const blob = new Blob([csvContent], { type: 'text/csv' });
                                     const url = window.URL.createObjectURL(blob);
                                     const a = document.createElement('a');
