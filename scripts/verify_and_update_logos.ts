@@ -18,13 +18,22 @@ const LOGO_DEV_KEY = 'pk_UWOqpPygSO-A2Tpc-uUYpg';
 
 // Manual Overrides for tricky domains
 const DOMAIN_OVERRIDES: Record<string, string> = {
-    'Taurus Mutual Funds': 'taurusmf.com',
+    "Moody's Analytics": 'moodys.com',
+    'Taurus Mutual Funds': 'taurusmutualfund.com',
+    'Noccarc Robotics': 'noccarc.com',
+    'Raaz App': 'raaz.co.in',
+    'Reliance Industries - AJIO': 'ajio.com',
+    'MiQ': 'miqdigital.com',
     'Vodafone-Idea': 'myvi.in',
     'Lenden': 'lendenclub.com',
-    'Kyoren': 'kyoren.com', // Verify if exists
-    'Raaz App': 'raaz.co.in', // Guess
-    'Guidewire': 'guidewire.com', // Should work, but let's check
-    'Liquidmind.ai': 'liquidmind.ai'
+    'Kyoren': 'kyoren.com',
+    'Guidewire': 'guidewire.com',
+    'Liquidmind.ai': 'liquidmind.ai',
+    'Aditya Birla Management Corp.': 'adityabirla.com',
+    'Accenture AIOC': 'accenture.com',
+    'Sodexo': 'sodexo.com',
+    'Tata Capital': 'tatacapital.com',
+    'Indian Bank': 'indianbank.in'
 };
 
 const checkUrl = (url: string): Promise<number> => {
