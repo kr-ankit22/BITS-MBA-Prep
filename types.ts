@@ -44,6 +44,20 @@ export interface Question {
   askedInBITS: boolean;
   role: string; // Specific role context
   domain: string;
+  interviewExperienceId?: string; // Link to parent experience
+}
+
+export interface InterviewExperience {
+  id: string;
+  companyId: string;
+  companyName: string;
+  studentName: string; // 'Anonymous' if hidden
+  role: string;
+  date: string;
+  difficulty: Difficulty;
+  outcome: 'Offer' | 'Rejected' | 'Waitlisted' | 'Unknown';
+  overallExperience: string;
+  questions: Question[]; // Hydrated questions
 }
 
 export interface Resource {

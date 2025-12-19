@@ -1,7 +1,8 @@
 
 import React, { useState, useEffect } from 'react';
-import { Question, ViewState, Resource, Company, Recommendation } from './types';
+import { Question, ViewState, Resource, Company, Recommendation, InterviewExperience } from './types';
 import * as api from './services/api';
+import { MOCK_EXPERIENCES } from './constants';
 
 import ChatAssistant from './components/ChatAssistant';
 import AdminPanel from './components/AdminPanel';
@@ -40,6 +41,7 @@ const MainContent: React.FC = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [experiences, setExperiences] = useState<InterviewExperience[]>(MOCK_EXPERIENCES);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -88,6 +90,10 @@ const MainContent: React.FC = () => {
     if (savedRec) {
       setRecommendations(prev => [savedRec, ...prev]);
     }
+  };
+
+  const handleAddExperience = (newExp: InterviewExperience) => {
+    setExperiences(prev => [newExp, ...prev]);
   };
 
   const [selectedCompany, setSelectedCompany] = useState<string | undefined>(undefined);
@@ -231,7 +237,7 @@ const MainContent: React.FC = () => {
   // Protected Route Logic
   const renderContent = () => {
     if (view === 'home') return renderHome();
-    if (view === 'questions') return <QuestionBank questions={questions} companies={companies} initialCompany={selectedCompany} />;
+    if (view === 'questions') return <QuestionBank questions={questions} companies={companies} initialCompany={selectedCompany} experiences={experiences} />;
     if (view === 'resources') return <ResourceLibrary resources={resources} />;
     if (view === 'companies') return <CompaniesList companies={companies} onSelectCompany={(name) => { setSelectedCompany(name); setView('questions'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />;
     if (view === 'analytics') return renderAnalytics();
@@ -256,7 +262,7 @@ const MainContent: React.FC = () => {
 
     if (view === 'admin') {
       if (role !== 'admin') return <div className="p-8 text-center text-red-600">Access Denied. Admins only.</div>;
-      return <AdminPanel onAddQuestion={handleAddQuestion} onAddResource={handleAddResource} onAddRecommendation={handleAddRecommendation} onAddCompany={handleAddCompany} companies={companies} />;
+      return <AdminPanel onAddQuestion={handleAddQuestion} onAddResource={handleAddResource} onAddRecommendation={handleAddRecommendation} onAddCompany={handleAddCompany} onAddExperience={handleAddExperience} companies={companies} />;
     }
 
     if (view === 'faculty') {

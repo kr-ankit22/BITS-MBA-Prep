@@ -19,10 +19,11 @@ interface AdminPanelProps {
     onAddRecommendation: (rec: Recommendation) => void;
     companies: Company[];
     onAddCompany: (c: Company) => Promise<Company | null>;
+    onAddExperience: (exp: import('../types').InterviewExperience) => void;
 }
 
-const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, onAddRecommendation, companies, onAddCompany }) => {
-    const [activeTab, setActiveTab] = useState<'question' | 'resource' | 'recommendation' | 'users'>('question');
+const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, onAddRecommendation, companies, onAddCompany, onAddExperience }) => {
+    const [activeTab, setActiveTab] = useState<'question' | 'resource' | 'recommendation' | 'users' | 'experience'>('question');
     const [users, setUsers] = useState<UserRoleData[]>([]);
     const [isUploading, setIsUploading] = useState(false);
     const [uploadProgress, setUploadProgress] = useState(0);
@@ -38,6 +39,15 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
     const [qText, setQText] = useState('');
     const [qApproach, setQApproach] = useState('');
     const [qAskedBits, setQAskedBits] = useState(false);
+
+    // Experience Form State
+    const [eCompany, setECompany] = useState('');
+    const [eStudent, setEStudent] = useState('');
+    const [eRole, setERole] = useState('');
+    const [eDate, setEDate] = useState('');
+    const [eDifficulty, setEDifficulty] = useState<Difficulty>(Difficulty.Medium);
+    const [eOutcome, setEOutcome] = useState<'Offer' | 'Rejected' | 'Waitlisted' | 'Unknown'>('Unknown');
+    const [eExperience, setEExperience] = useState('');
 
     // Resource Form State
     const [rTitle, setRTitle] = useState('');
@@ -210,6 +220,61 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
             fetchUsers(); // Refresh list
             setTimeout(() => setSuccessMsg(''), 3000);
         }
+    };
+
+    const handleExperienceSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // Find or create company logic (simplified for now, assuming existing or just using name)
+        let companyId = '';
+        const existingCompany = companies.find(c => c.name === eCompany);
+        if (existingCompany) {
+            companyId = existingCompany.id;
+        } else {
+            // Create new company
+            const newCompany: Company = {
+                id: '', // DB will assign
+                name: eCompany,
+                sector: 'General',
+                logo: `https://logo.clearbit.com/${eCompany.toLowerCase().replace(/\s/g, '')}.com`,
+                description: 'Added via Admin Panel.',
+                roles: [eRole]
+            };
+            try {
+                const savedCompany = await onAddCompany(newCompany);
+                if (savedCompany) {
+                    companyId = savedCompany.id;
+                } else {
+                    alert('Failed to create company.');
+                    return;
+                }
+            } catch (error) {
+                console.error('Error creating company:', error);
+                alert('Error creating company.');
+                return;
+            }
+        }
+
+        const newExperience: import('../types').InterviewExperience = {
+            id: `exp_${Date.now()}`,
+            companyId: companyId,
+            companyName: eCompany,
+            studentName: eStudent,
+            role: eRole,
+            date: eDate,
+            difficulty: eDifficulty,
+            outcome: eOutcome,
+            overallExperience: eExperience,
+            questions: [] // Questions would be linked separately in a real app, or we could add a question picker here later
+        };
+
+        onAddExperience(newExperience);
+        setSuccessMsg('Interview Experience added successfully!');
+
+        // Reset form
+        setECompany(''); setEStudent(''); setERole(''); setEDate('');
+        setEDifficulty(Difficulty.Medium); setEOutcome('Unknown'); setEExperience('');
+        setTimeout(() => setSuccessMsg(''), 3000);
     };
 
     // --- CSV Logic ---
@@ -579,6 +644,12 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                     >
                         <IconUser className="w-4 h-4" /> Users
                     </button>
+                    <button
+                        onClick={() => { setActiveTab('experience'); setUploadStats(null); }}
+                        className={`px-5 py-2 rounded-md text-sm font-semibold transition-all flex items-center gap-2 ${activeTab === 'experience' ? 'bg-white text-bits-blue shadow-sm ring-1 ring-black/5' : 'text-gray-500 hover:text-gray-700 hover:bg-gray-200/50'}`}
+                    >
+                        <IconBriefcase className="w-4 h-4" /> Experience
+                    </button>
                 </div>
             </div>
 
@@ -756,6 +827,54 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                     <div className="pt-4 border-t border-gray-100">
                                         <button type="submit" className="w-full bg-bits-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-all shadow-md">
                                             Add Recommendation
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : activeTab === 'experience' ? (
+                                <form onSubmit={handleExperienceSubmit} className="space-y-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Company Name <span className="text-red-500">*</span></label>
+                                            <input list="companies" value={eCompany} onChange={e => setECompany(e.target.value)} className={inputStyle} placeholder="e.g. Google" required />
+                                            <datalist id="companies">
+                                                {companies.map(c => <option key={c.id} value={c.name} />)}
+                                            </datalist>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Student Name</label>
+                                            <input type="text" value={eStudent} onChange={e => setEStudent(e.target.value)} className={inputStyle} placeholder="e.g. John Doe (or Anonymous)" required />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Role</label>
+                                            <input type="text" value={eRole} onChange={e => setERole(e.target.value)} className={inputStyle} placeholder="e.g. Data Scientist" required />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Date</label>
+                                            <input type="text" value={eDate} onChange={e => setEDate(e.target.value)} className={inputStyle} placeholder="e.g. Oct 2024" required />
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Difficulty</label>
+                                            <select value={eDifficulty} onChange={e => setEDifficulty(e.target.value as Difficulty)} className={inputStyle}>
+                                                {Object.values(Difficulty).map(d => <option key={d} value={d}>{d}</option>)}
+                                            </select>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <label className={labelStyle}>Outcome</label>
+                                            <select value={eOutcome} onChange={e => setEOutcome(e.target.value as any)} className={inputStyle}>
+                                                <option value="Offer">Offer</option>
+                                                <option value="Rejected">Rejected</option>
+                                                <option value="Waitlisted">Waitlisted</option>
+                                                <option value="Unknown">Unknown</option>
+                                            </select>
+                                        </div>
+                                        <div className="md:col-span-2 space-y-1.5">
+                                            <label className={labelStyle}>Overall Experience <span className="text-red-500">*</span></label>
+                                            <textarea value={eExperience} onChange={e => setEExperience(e.target.value)} rows={6} className={inputStyle} placeholder="Describe the entire process, rounds, and general advice..." required />
+                                        </div>
+                                    </div>
+                                    <div className="pt-4 border-t border-gray-100">
+                                        <button type="submit" className="w-full bg-bits-blue text-white font-bold py-3 px-6 rounded-lg hover:bg-blue-800 transition-all shadow-md">
+                                            Add Interview Experience
                                         </button>
                                     </div>
                                 </form>

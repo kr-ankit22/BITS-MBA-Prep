@@ -108,6 +108,33 @@ export const QUESTIONS: Question[] = [
   }
 ];
 
+export const MOCK_EXPERIENCES: import('./types').InterviewExperience[] = [
+  {
+    id: 'exp1',
+    companyId: 'c1',
+    companyName: 'JPMorgan Chase',
+    studentName: 'Aarav Sharma',
+    role: 'Risk Analyst',
+    date: 'Oct 2024',
+    difficulty: Difficulty.Medium,
+    outcome: 'Offer',
+    overallExperience: "The process started with an online coding round (HackerRank) focusing on DSA and SQL. \n\nRound 1 (Technical): The interviewer asked about my projects, specifically the credit risk model. He drilled down into the feature selection process and why I chose XGBoost over Random Forest. \n\nRound 2 (Managerial): This was more about fit. They asked about my interest in finance and how I handle pressure. \n\nOverall, it was a smooth process. Be thorough with your resume projects!",
+    questions: [QUESTIONS[0], QUESTIONS[1]]
+  },
+  {
+    id: 'exp2',
+    companyId: 'c3',
+    companyName: 'Amazon',
+    studentName: 'Priya Patel',
+    role: 'Program Manager',
+    date: 'Nov 2024',
+    difficulty: Difficulty.Hard,
+    outcome: 'Waitlisted',
+    overallExperience: "Amazon's process is very Leadership Principle focused. \n\nRound 1: Bar Raiser. Very tough behavioral questions. 'Tell me about a time you disagreed with a manager'. \n\nRound 2: Case study on supply chain optimization. \n\nTip: Read the 16 Leadership Principles by heart and have 2 stories for each.",
+    questions: [QUESTIONS[3]]
+  }
+];
+
 export const RESOURCES: Resource[] = [
   {
     id: 'r1',
