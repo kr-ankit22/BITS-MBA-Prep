@@ -163,6 +163,7 @@ export const RESOURCES: Resource[] = [
 export const ADMIN_EMAILS = [
   'admin@bits-pilani.ac.in',
   'placement@bits-pilani.ac.in',
+  'contri@pilani.ac.in',
   'test_admin_bits_prep@gmail.com' // For testing
 ];
 
