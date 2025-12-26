@@ -200,7 +200,7 @@ const CompanyExperienceGroup: React.FC<{
 
 
 const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initialCompany, experiences }) => {
-  const [viewMode, setViewMode] = useState<'questions' | 'experiences'>('experiences'); // Default to experiences
+  const [viewMode, setViewMode] = useState<'questions' | 'experiences'>('questions'); // Default to questions
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCompany, setSelectedCompany] = useState<string>(initialCompany || 'All');
   const [selectedTopic, setSelectedTopic] = useState<string>('All');
