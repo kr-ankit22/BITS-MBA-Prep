@@ -120,7 +120,7 @@ const MainContent: React.FC = () => {
             <button onClick={() => setView('questions')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'questions' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Questions</button>
             <button onClick={() => setView('resources')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'resources' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Resources</button>
             <button onClick={() => setView('companies')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'companies' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Companies</button>
-            <button onClick={() => setView('analytics')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'analytics' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Analytics</button>
+            {/* <button onClick={() => setView('analytics')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'analytics' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Analytics</button> */}
             <button onClick={() => setView('recommendations')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${view === 'recommendations' ? 'bg-blue-50 text-bits-blue' : 'text-gray-600 hover:bg-gray-50'}`}>Faculty Recs</button>
 
             {role === 'admin' && (
@@ -191,13 +191,13 @@ const MainContent: React.FC = () => {
             <h3 className="text-xl font-bold mb-2 text-gray-900">Curated Resources</h3>
             <p className="text-gray-600">Top-rated tutorials for Python, SQL, and Product Management from Coursera, Kaggle, and more.</p>
           </div>
-          <div onClick={() => setView('analytics')} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all cursor-pointer group">
+          {/* <div onClick={() => setView('analytics')} className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all cursor-pointer group">
             <div className="w-14 h-14 bg-purple-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-purple-600 transition-colors">
               <IconChart className="w-7 h-7 text-purple-600 group-hover:text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">Insights</h3>
             <p className="text-gray-600">Self-Analyze trends [or lack thereof :-] in questions asked. Focussed & Smart Preparation is the way!</p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
