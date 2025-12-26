@@ -85,7 +85,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorI
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Quality Check
+        // Data Integrity & Quality Guard: Ensure meaningful content is submitted
         const totalQuestions = rounds.reduce((acc, r) => acc + r.questions.filter(q => q.text.trim().length > 5).length, 0);
         if (totalQuestions === 0) {
             setError("Wait! 🛑 Juniors need specific questions to practice. Please add at least one detailed question.");

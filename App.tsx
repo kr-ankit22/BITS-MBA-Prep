@@ -196,7 +196,7 @@ const MainContent: React.FC = () => {
               <IconChart className="w-7 h-7 text-purple-600 group-hover:text-white" />
             </div>
             <h3 className="text-xl font-bold mb-2 text-gray-900">Insights</h3>
-            <p className="text-gray-600">Self-Analyze trends [or lack thereof :-] in questions asked. Focussed & Smart Preparation is the way!</p>
+            <p className="text-gray-600">Analyze question patterns and preparation trends to focus your study efforts effectively.</p>
           </div> */}
         </div>
       </div>
