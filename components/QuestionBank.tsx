@@ -473,12 +473,37 @@ const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initi
                   );
                 })
               ) : (
-                <div className="text-center py-20 bg-white rounded-xl border border-gray-200 border-dashed">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-gray-50 rounded-full mb-4">
-                    <IconUser className="w-8 h-8 text-gray-300" />
+                <div className="text-center py-24 bg-gradient-to-br from-indigo-50 via-purple-50 to-pink-50 rounded-2xl border border-purple-100 shadow-sm relative overflow-hidden">
+                  <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20"></div>
+                  <div className="relative z-10 max-w-lg mx-auto px-6">
+                    <div className="inline-flex items-center justify-center w-20 h-20 bg-white rounded-full mb-6 shadow-md animate-bounce-slow">
+                      <span className="text-4xl">🚀</span>
+                    </div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-3">Be the Trailblazer!</h3>
+                    <p className="text-gray-600 mb-8 text-lg">
+                      No interview experiences here yet. This is your chance to be the first and help the entire community!
+                    </p>
+
+                    <div className="bg-white/80 backdrop-blur-sm p-6 rounded-xl border border-white/50 shadow-sm text-left mx-auto max-w-sm">
+                      <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <span className="text-bits-gold">⚡</span> How to Contribute:
+                      </h4>
+                      <ol className="space-y-4 text-sm text-gray-700">
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-indigo-100 text-indigo-700 font-bold rounded-full flex items-center justify-center text-xs">1</span>
+                          <span>Log in to the portal using your BITS Email.</span>
+                        </li>
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-purple-100 text-purple-700 font-bold rounded-full flex items-center justify-center text-xs">2</span>
+                          <span>Go to <strong>"My Contributions"</strong> and click <strong>"Add Experience"</strong>.</span>
+                        </li>
+                        <li className="flex gap-3">
+                          <span className="flex-shrink-0 w-6 h-6 bg-pink-100 text-pink-700 font-bold rounded-full flex items-center justify-center text-xs">3</span>
+                          <span>Share your journey and help juniors ace their dream roles! 🌟</span>
+                        </li>
+                      </ol>
+                    </div>
                   </div>
-                  <h3 className="text-lg font-medium text-gray-900">No experiences found</h3>
-                  <p className="text-gray-500 mb-6 max-w-sm mx-auto mt-2">Try adjusting your search or filters.</p>
                 </div>
               )}
 

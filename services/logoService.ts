@@ -6,6 +6,27 @@
 
 const API_KEY = 'pk_UWOqpPygSO-A2Tpc-uUYpg'; // User provided 2025-12-20
 
+// Manual Overrides for tricky domains (User Requested & Verified)
+const DOMAIN_OVERRIDES: Record<string, string> = {
+    "Moody's Analytics": 'moodys.com',
+    'Taurus Mutual Funds': 'taurusmutualfund.com',
+    'Noccarc Robotics': 'noccarc.com',
+    'Raaz App': 'raazapp.com',
+    'Reliance Industries - AJIO': 'ajio.com',
+    'MiQ': 'miqdigital.com',
+    'Vodafone-Idea': 'myvi.in',
+    'Lenden': 'lendenclub.com',
+    'Kyoren': 'kyoren.com',
+    'Guidewire': 'guidewire.com',
+    'Guidewire Software': 'guidewire.com',
+    'Liquidmind.ai': 'liquidmind.ai',
+    'Aditya Birla Management Corp.': 'adityabirla.com',
+    'Accenture AIOC': 'accenture.com',
+    'Sodexo': 'sodexo.com',
+    'Tata Capital': 'tatacapital.com',
+    'Indian Bank': 'indianbank.in'
+};
+
 export const LogoService = {
     /**
      * Tries to find a logo for a company name.

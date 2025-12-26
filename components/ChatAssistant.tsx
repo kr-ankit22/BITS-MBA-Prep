@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { ChatMessage } from '../types';
 import { createChatSession, sendMessageStream } from '../services/geminiService';
-import { IconSparkles, IconSend, IconX } from './Icons';
+import { IconSend, IconX, IconRobot } from './Icons';
 import { Chat, GenerateContentResponse } from "@google/genai";
 
 const QUIRKY_QUOTES = [
@@ -108,10 +108,9 @@ const ChatAssistant: React.FC = () => {
       {!isOpen && (
         <button
           onClick={handleAssistantClick}
-          className="fixed bottom-6 right-6 bg-bits-blue text-white p-4 rounded-full shadow-2xl hover:bg-blue-800 transition-all z-50 flex items-center gap-2"
+          className="fixed bottom-6 right-6 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 text-white p-3 rounded-full shadow-2xl hover:scale-110 hover:rotate-12 transition-all duration-300 z-50 flex items-center justify-center border-2 border-white/20"
         >
-          <IconSparkles className="w-6 h-6" />
-          <span className="font-semibold">AI Assistant</span>
+          <IconRobot className="w-7 h-7" />
         </button>
       )}
 
@@ -122,7 +121,7 @@ const ChatAssistant: React.FC = () => {
             <div className="text-center space-y-6">
               <div className="flex justify-center">
                 <div className="bg-bits-blue bg-opacity-10 p-4 rounded-full">
-                  <IconSparkles className="w-12 h-12 text-bits-blue" />
+                  <IconRobot className="w-12 h-12 text-bits-blue" />
                 </div>
               </div>
 
@@ -158,7 +157,7 @@ const ChatAssistant: React.FC = () => {
           {/* Header */}
           <div className="bg-bits-blue text-white p-4 flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <IconSparkles className="w-5 h-5 text-bits-gold" />
+              <IconRobot className="w-5 h-5 text-bits-gold" />
               <h3 className="font-bold">BITS Placement AI</h3>
             </div>
             <button onClick={() => setIsOpen(false)} className="hover:text-bits-gold transition-colors">
