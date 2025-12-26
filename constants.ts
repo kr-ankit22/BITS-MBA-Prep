@@ -173,4 +173,20 @@ export const FACULTY_EMAILS = [
   'test_faculty@example.com' // For testing
 ];
 
-
+// --- Priority Companies ---
+export const FEATURED_COMPANIES = [
+  'MiQ',
+  'HSBC',
+  'Moody\'s',
+  'Accenture',
+  'Accenture Strategy',
+  'JPMorgan Chase',
+  'Amazon',
+  'Google',
+  'Microsoft',
+  'Goldman Sachs',
+  'Morgan Stanley',
+  'McKinsey & Company',
+  'Boston Consulting Group',
+  'Bain & Company'
+];

@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { Question, Topic, Company, InterviewExperience } from '../types';
+import { FEATURED_COMPANIES } from '../constants';
 import Pagination from './Pagination';
 import CompanyLogo from './CompanyLogo';
 import { IconFilter, IconBriefcase, IconUser, IconChart, IconX, IconChevronDown, IconChevronUp } from './Icons';
@@ -224,7 +225,29 @@ const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initi
     const uniqueTopics = Array.from(new Set(questions.map(q => q.topic).filter(Boolean)));
     return ['All', ...uniqueTopics.sort()];
   }, [questions]);
-  const companyNames = ['All', ...Array.from(new Set(companies.map(c => c.name)))];
+  const companyNames = useMemo(() => {
+    const names = Array.from(new Set(companies.map(c => c.name)));
+    return ['All', ...names.sort((a: string, b: string) => {
+      const aFeaturedIndex = FEATURED_COMPANIES.indexOf(a);
+      const bFeaturedIndex = FEATURED_COMPANIES.indexOf(b);
+
+      if (aFeaturedIndex !== -1 && bFeaturedIndex !== -1) return aFeaturedIndex - bFeaturedIndex;
+      if (aFeaturedIndex !== -1) return -1;
+      if (bFeaturedIndex !== -1) return 1;
+      return a.localeCompare(b);
+    })];
+  }, [companies]);
+
+  // Helper for sorting companies by priority
+  const sortCompanies = (a: string, b: string) => {
+    const aFeaturedIndex = FEATURED_COMPANIES.indexOf(a);
+    const bFeaturedIndex = FEATURED_COMPANIES.indexOf(b);
+
+    if (aFeaturedIndex !== -1 && bFeaturedIndex !== -1) return aFeaturedIndex - bFeaturedIndex;
+    if (aFeaturedIndex !== -1) return -1;
+    if (bFeaturedIndex !== -1) return 1;
+    return a.localeCompare(b);
+  };
 
   // 1. Filter the raw questions
   const filteredQuestions = useMemo(() => {
@@ -253,7 +276,10 @@ const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initi
   }, [filteredQuestions]);
 
   // 3. Pagination Logic (Based on Companies, not questions)
-  const filteredCompanyNames = Object.keys(groupedByCompany);
+  const filteredCompanyNames = useMemo(() => {
+    return Object.keys(groupedByCompany).sort(sortCompanies);
+  }, [groupedByCompany]);
+
   const totalPages = Math.ceil(filteredCompanyNames.length / companiesPerPage);
 
   const currentCompanyNames = filteredCompanyNames.slice(
@@ -284,7 +310,10 @@ const QuestionBank: React.FC<QuestionBankProps> = ({ questions, companies, initi
     return groups;
   }, [filteredExperiences]);
 
-  const filteredExperienceCompanies = Object.keys(groupedExperiences);
+  const filteredExperienceCompanies = useMemo(() => {
+    return Object.keys(groupedExperiences).sort(sortCompanies);
+  }, [groupedExperiences]);
+
   const totalExperiencePages = Math.ceil(filteredExperienceCompanies.length / companiesPerPage);
 
   const currentExperienceCompanies = filteredExperienceCompanies.slice(
