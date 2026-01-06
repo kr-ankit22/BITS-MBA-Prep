@@ -243,7 +243,22 @@ const MainContent: React.FC = () => {
     if (view === 'home') return renderHome();
     if (view === 'questions') return <QuestionBank questions={questions} companies={companies} initialCompany={selectedCompany} experiences={experiences} />;
     if (view === 'resources') return <ResourceLibrary resources={resources} />;
-    if (view === 'companies') return <CompaniesList companies={companies} onSelectCompany={(name) => { setSelectedCompany(name); setView('questions'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} />;
+    if (view === 'companies') {
+      const qCounts = questions.reduce((acc, q) => {
+        acc[q.companyName] = (acc[q.companyName] || 0) + 1;
+        return acc;
+      }, {} as Record<string, number>);
+
+      return <CompaniesList
+        companies={companies}
+        questionCounts={qCounts}
+        onSelectCompany={(name) => {
+          setSelectedCompany(name);
+          setView('questions');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }}
+      />;
+    }
     if (view === 'analytics') return renderAnalytics();
     if (view === 'recommendations') return <RecommendationList recommendations={recommendations} />;
 

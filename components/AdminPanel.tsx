@@ -634,19 +634,19 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
 
         if (tab === 'question') {
             headers = 'Company,Domain,Role,Topic,Difficulty,Question,Ideal_Approach,Asked_In_BITS\n';
-            content = 'Google,Tech,Software Engineer,Algorithms,Hard,"Describe merge sort.","Explain the divide and conquer strategy, then detail the steps of splitting, sorting, and merging. Analyze time complexity.","yes"';
+            content = '';
             filename = 'questions_template.csv';
         } else if (tab === 'resource') {
             headers = 'Title,URL,Description,Category,Source,Duration\n';
-            content = 'Complete Python Bootcamp,https://www.udemy.com/course/complete-python-bootcamp/,A comprehensive course on Python programming,Python,Udemy,40 hours';
+            content = '';
             filename = 'resources_template.csv';
         } else if (tab === 'recommendation') {
             headers = 'Faculty Name,Title,URL,Description,Subject,Goal,Expected Learning,Remarks,Time Estimate\n';
-            content = 'Dr. Smith,Pandas 101,https://pandas.pydata.org,Intro to Pandas,Python,Basics,Dataframes,"Good start",1 Hour';
+            content = '';
             filename = 'recommendations_template_admin.csv';
         } else {
             headers = 'Email,Role,Auth Provider,Name\n';
-            content = 'faculty@pilani.bits-pilani.ac.in,faculty,google,Dr. Sharma\nstudent@example.com,student,local,John Doe\nalumni@example.com,contributor,google,Alumni Name';
+            content = '';
             filename = 'users_template.csv';
         }
 
