@@ -40,11 +40,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         try {
             console.log(`[AuthDebug] Fetching role [Attempt:${retryCount + 1}] for: ${normalizedEmail}`);
 
-            const { data, error } = await supabase
+            // Timeout Promise to prevent hanging indefinitely
+            const dbPromise = supabase
                 .from('user_roles')
                 .select('role')
                 .ilike('email', normalizedEmail)
                 .maybeSingle();
+
+            const timeoutPromise = new Promise<{ data: null, error: { message: string } }>((resolve) => {
+                setTimeout(() => resolve({ data: null, error: { message: 'Request timed out' } }), 5000);
+            });
+
+            // Race the DB call against the 5s timer
+            // @ts-ignore - Supabase types vs custom timeout type match
+            const { data, error } = await Promise.race([dbPromise, timeoutPromise]);
 
             // Safety: If user changed or a new fetch started, abort
             if (userId !== lastSessionId.current || fetchId !== fetchIdCounter.current) {
@@ -87,8 +96,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 return;
             }
 
-            // If it's a new login or session refresh
-            if (userId !== lastSessionId.current || event === 'SIGNED_IN') {
+            // If it's a new login or session refresh (ID change)
+            if (userId !== lastSessionId.current) {
                 lastSessionId.current = userId;
                 setState(prev => ({ ...prev, user: session.user, session, loading: true }));
 
