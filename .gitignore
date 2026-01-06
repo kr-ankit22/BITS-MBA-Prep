@@ -32,3 +32,9 @@ dist-ssr
 # Data files (local only)
 data_files/
 
+# Temporary / Generated files
+Gemini_Generated_Image_*.png
+Vodafone Idea Question Bank.md
+read_moody.py
+moody_text*.txt
+
