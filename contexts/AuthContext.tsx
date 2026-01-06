@@ -60,23 +60,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 .from('user_roles')
                 .select('role, auth_provider')
                 .ilike('email', normalizedEmail)
-                .maybeSingle(); // maybeSingle doesn't error if 0 rows found
+                .maybeSingle();
 
-            if (error) {
-                console.error('[AuthDebug] DB Error:', error);
-            }
+            console.log('[AuthDebug] Raw DB Response:', { data, error });
 
-            // 2. Domain Restriction for Google Login (only if NOT in whitelist)
+            // 2. Assign Role (Default to 'student' if not in whitelist)
             const isWhitelisted = data && !error;
-            if (!isWhitelisted && provider === 'google' && !normalizedEmail.endsWith('@pilani.bits-pilani.ac.in')) {
-                console.warn('[AuthDebug] Access Blocked: Non-BITS & Not Whitelisted');
-                await supabase.auth.signOut();
-                alert(`Access Denied: ${normalizedEmail} is not authorized. Please use your BITS email or contact the admin.`);
-                return;
-            }
-
             if (!isWhitelisted) {
-                console.log('[AuthDebug] Not whitelisted, defaulting to student');
+                console.log('[AuthDebug] Normal user (non-whitelist), defaulting to student');
                 setRole('student');
                 return;
             }
