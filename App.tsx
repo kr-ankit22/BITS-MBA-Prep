@@ -36,7 +36,7 @@ const Typewriter: React.FC<{ text: string; delay?: number }> = ({ text, delay = 
 };
 
 const MainContent: React.FC = () => {
-  const { user, role, signOut } = useAuth();
+  const { user, role, loading: authLoading, signOut } = useAuth();
   const [view, setView] = useState<ViewState>('home');
   const [questions, setQuestions] = useState<Question[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
@@ -296,6 +296,17 @@ const MainContent: React.FC = () => {
 
     return renderHome();
   };
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 uppercase tracking-widest font-bold text-gray-400">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-bits-blue/20 border-t-bits-blue rounded-full animate-spin"></div>
+          Loading Prep Portal...
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900 flex flex-col selection:bg-bits-gold selection:text-white">

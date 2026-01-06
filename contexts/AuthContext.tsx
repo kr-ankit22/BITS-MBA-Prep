@@ -6,11 +6,15 @@ import { ADMIN_EMAILS, FACULTY_EMAILS } from '../constants';
 
 type UserRole = 'admin' | 'faculty' | 'student' | null;
 
-interface AuthContextType {
-    session: Session | null;
+interface AuthState {
     user: User | null;
+    session: Session | null;
     role: UserRole;
     loading: boolean;
+    initialized: boolean;
+}
+
+interface AuthContextType extends AuthState {
     signOut: () => Promise<void>;
     mockLogin: (email: string, role: UserRole) => void;
 }
@@ -18,74 +22,97 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [session, setSession] = useState<Session | null>(null);
-    const [user, setUser] = useState<User | null>(null);
-    const [role, setRole] = useState<UserRole>(null);
-    const [loading, setLoading] = useState(true);
+    const [state, setState] = useState<AuthState>({
+        user: null,
+        session: null,
+        role: null,
+        loading: true,
+        initialized: false
+    });
 
-    useEffect(() => {
-        // Check active session
-        supabase.auth.getSession().then(({ data: { session } }) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            fetchUserRole(session?.user?.email, session?.user?.app_metadata?.provider);
-            setLoading(false);
-        });
+    const lastSessionId = React.useRef<string | null>(null);
+    const fetchIdCounter = React.useRef(0);
 
-        // Listen for changes
-        const {
-            data: { subscription },
-        } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
-            setUser(session?.user ?? null);
-            fetchUserRole(session?.user?.email, session?.user?.app_metadata?.provider);
-            setLoading(false);
-        });
+    const checkRole = async (email: string, userId: string, retryCount = 0): Promise<UserRole> => {
+        const fetchId = ++fetchIdCounter.current;
+        const normalizedEmail = email.toLowerCase().trim();
 
-        return () => subscription.unsubscribe();
-    }, []);
-
-    const fetchUserRole = async (email: string | undefined, provider: string | undefined) => {
-        if (!email) {
-            setRole(null);
-            return;
-        }
-
-        // 1. Fetch Role from DB (Whitelist Check)
         try {
-            const normalizedEmail = email.toLowerCase().trim();
-            console.log(`[AuthDebug] Checking role for: ${normalizedEmail} (Provider: ${provider})`);
+            console.log(`[AuthDebug] Fetching role [Attempt:${retryCount + 1}] for: ${normalizedEmail}`);
 
             const { data, error } = await supabase
                 .from('user_roles')
-                .select('role, auth_provider')
+                .select('role')
                 .ilike('email', normalizedEmail)
                 .maybeSingle();
 
-            console.log('[AuthDebug] Raw DB Response:', { data, error });
-
-            // 2. Assign Role (Default to 'student' if not in whitelist)
-            const isWhitelisted = data && !error;
-            if (!isWhitelisted) {
-                console.log('[AuthDebug] Normal user (non-whitelist), defaulting to student');
-                setRole('student');
-                return;
+            // Safety: If user changed or a new fetch started, abort
+            if (userId !== lastSessionId.current || fetchId !== fetchIdCounter.current) {
+                return null;
             }
 
-            console.log('[AuthDebug] Authorized role:', data.role);
-            setRole(data.role as UserRole);
+            if (error) {
+                console.error('[AuthDebug] DB Error:', error);
+                return 'student';
+            }
 
+            if (!data) {
+                // If we got null but we're pretty sure this user should have a role (like a BITS admin)
+                // we retry once to handle JWT propagation delay
+                if (retryCount < 1) {
+                    await new Promise(r => setTimeout(r, 800));
+                    return checkRole(email, userId, retryCount + 1);
+                }
+                return 'student';
+            }
+
+            return data.role as UserRole;
         } catch (err) {
-            console.error('[AuthDebug] Exception:', err);
-            setRole('student');
+            return 'student';
         }
     };
 
+    useEffect(() => {
+        let isMounted = true;
+
+        const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+            const userId = session?.user?.id || null;
+            console.log(`[AuthDebug] Event: ${event} | User: ${userId}`);
+
+            if (!isMounted) return;
+
+            if (!session) {
+                lastSessionId.current = null;
+                setState(prev => ({ ...prev, user: null, session: null, role: null, loading: false, initialized: true }));
+                return;
+            }
+
+            // If it's a new login or session refresh
+            if (userId !== lastSessionId.current || event === 'SIGNED_IN') {
+                lastSessionId.current = userId;
+                setState(prev => ({ ...prev, user: session.user, session, loading: true }));
+
+                const detectedRole = await checkRole(session.user.email!, userId);
+
+                if (isMounted && userId === lastSessionId.current) {
+                    setState(prev => ({ ...prev, role: detectedRole, loading: false, initialized: true }));
+                }
+            } else {
+                // Just sync basic user data without re-fetching role
+                setState(prev => ({ ...prev, user: session.user, session, loading: false, initialized: true }));
+            }
+        });
+
+        return () => {
+            isMounted = false;
+            subscription.unsubscribe();
+        };
+    }, []);
+
     const signOut = async () => {
         await supabase.auth.signOut();
-        setRole(null);
-        setUser(null);
-        setSession(null);
+        setState({ user: null, session: null, role: null, loading: false, initialized: true });
+        lastSessionId.current = null;
     };
 
     const mockLogin = (email: string, role: UserRole) => {
@@ -100,14 +127,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             role: 'authenticated',
             updated_at: new Date().toISOString()
         };
-
-        setUser(mockUser);
-        setRole(role);
-        // We don't set a real session, but the app relies on 'user' and 'role' mostly.
+        setState({ user: mockUser, session: null, role, loading: false, initialized: true });
     };
 
     return (
-        <AuthContext.Provider value={{ session, user, role, loading, signOut, mockLogin }}>
+        <AuthContext.Provider value={{ ...state, signOut, mockLogin }}>
             {children}
         </AuthContext.Provider>
     );
