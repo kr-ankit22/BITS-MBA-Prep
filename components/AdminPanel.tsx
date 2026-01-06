@@ -233,8 +233,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
         e.preventDefault();
 
         // Domain Check for Google
-        if (uProvider === 'google' && !uEmail.endsWith('@pilani.bits-pilani.ac.in')) {
-            alert('Google Login requires a @pilani.bits-pilani.ac.in email address.');
+        const isBitsEmail = uEmail.endsWith('@pilani.bits-pilani.ac.in');
+        const isGmail = uEmail.endsWith('@gmail.com');
+
+        if (uProvider === 'google' && !isBitsEmail && !isGmail) {
+            alert('Google Login requires a @pilani.bits-pilani.ac.in or @gmail.com email address.');
             return;
         }
 

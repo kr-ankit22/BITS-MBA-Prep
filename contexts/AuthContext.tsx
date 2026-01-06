@@ -51,14 +51,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             return;
         }
 
-        // 1. Domain Restriction for Google Login
-        if (provider === 'google' && !email.endsWith('@pilani.bits-pilani.ac.in')) {
-            await supabase.auth.signOut();
-            alert('Access Denied: Please use your institutional email (@pilani.bits-pilani.ac.in).');
-            return;
-        }
-
-        // 2. Fetch Role from DB (Whitelist Check)
+        // 1. Fetch Role from DB (Whitelist Check)
         try {
             const { data, error } = await supabase
                 .from('user_roles')
@@ -66,24 +59,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 .eq('email', email)
                 .single();
 
-            if (error || !data) {
-                console.warn('User not in whitelist:', email);
-                // Optional: Sign out if strict whitelist is enforced
-                // await supabase.auth.signOut(); 
-                // setRole(null);
-                // alert('Access Denied: You are not authorized to access this platform.');
-
-                // For now, default to 'student' but maybe restrict access further?
-                // Let's stick to the plan: If not in whitelist, they are just a student (or guest).
-                // But for Admin/Faculty portals, the route protection will block them anyway.
-                setRole('student');
+            // 2. Domain Restriction for Google Login (only if NOT in whitelist)
+            if ((error || !data) && provider === 'google' && !email.endsWith('@pilani.bits-pilani.ac.in')) {
+                await supabase.auth.signOut();
+                alert('Access Denied: Please use your institutional email (@pilani.bits-pilani.ac.in).');
                 return;
             }
 
-            // 3. Provider Mismatch Check (Optional but good for security)
-            // If user logged in with Google but DB says 'local', we might want to block.
-            // For now, we'll be lenient or strict based on preference. 
-            // Let's just trust the email match for now to avoid locking people out during migration.
+            if (error || !data) {
+                console.warn('User not in whitelist:', email);
+                setRole('student');
+                return;
+            }
 
             setRole(data.role as UserRole);
 
