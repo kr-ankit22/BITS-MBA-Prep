@@ -242,7 +242,7 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
         }
 
         const { error } = await supabase.from('user_roles').insert({
-            email: uEmail,
+            email: uEmail.toLowerCase().trim(),
             role: uRole,
             auth_provider: uProvider,
             full_name: uName

@@ -53,29 +53,39 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         // 1. Fetch Role from DB (Whitelist Check)
         try {
+            const normalizedEmail = email.toLowerCase().trim();
+            console.log(`[AuthDebug] Checking role for: ${normalizedEmail} (Provider: ${provider})`);
+
             const { data, error } = await supabase
                 .from('user_roles')
                 .select('role, auth_provider')
-                .eq('email', email)
-                .single();
+                .ilike('email', normalizedEmail)
+                .maybeSingle(); // maybeSingle doesn't error if 0 rows found
+
+            if (error) {
+                console.error('[AuthDebug] DB Error:', error);
+            }
 
             // 2. Domain Restriction for Google Login (only if NOT in whitelist)
-            if ((error || !data) && provider === 'google' && !email.endsWith('@pilani.bits-pilani.ac.in')) {
+            const isWhitelisted = data && !error;
+            if (!isWhitelisted && provider === 'google' && !normalizedEmail.endsWith('@pilani.bits-pilani.ac.in')) {
+                console.warn('[AuthDebug] Access Blocked: Non-BITS & Not Whitelisted');
                 await supabase.auth.signOut();
-                alert('Access Denied: Please use your institutional email (@pilani.bits-pilani.ac.in).');
+                alert(`Access Denied: ${normalizedEmail} is not authorized. Please use your BITS email or contact the admin.`);
                 return;
             }
 
-            if (error || !data) {
-                console.warn('User not in whitelist:', email);
+            if (!isWhitelisted) {
+                console.log('[AuthDebug] Not whitelisted, defaulting to student');
                 setRole('student');
                 return;
             }
 
+            console.log('[AuthDebug] Authorized role:', data.role);
             setRole(data.role as UserRole);
 
         } catch (err) {
-            console.error('Error fetching user role:', err);
+            console.error('[AuthDebug] Exception:', err);
             setRole('student');
         }
     };
