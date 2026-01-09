@@ -42,22 +42,24 @@ const MainContent: React.FC = () => {
   const [resources, setResources] = useState<Resource[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
-  const [experiences, setExperiences] = useState<InterviewExperience[]>(MOCK_EXPERIENCES);
+  const [experiences, setExperiences] = useState<InterviewExperience[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
-      const [q, r, c, rec] = await Promise.all([
+      const [q, r, c, rec, exp] = await Promise.all([
         api.fetchQuestions(),
         api.fetchResources(),
         api.fetchCompanies(),
-        api.fetchRecommendations()
+        api.fetchRecommendations(),
+        api.fetchExperiences('approved')
       ]);
       setQuestions(q);
       setResources(r);
       setCompanies(c);
       setRecommendations(rec);
+      setExperiences(exp);
       setLoading(false);
     };
     loadData();

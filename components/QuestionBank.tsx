@@ -5,6 +5,7 @@ import Pagination from './Pagination';
 import CompanyLogo from './CompanyLogo';
 import { IconFilter, IconBriefcase, IconUser, IconChart, IconX, IconChevronDown, IconChevronUp } from './Icons';
 import InterviewExperienceCard from './InterviewExperienceCard';
+import CommunityStats from './CommunityStats';
 
 interface QuestionBankProps {
   questions: Question[];
