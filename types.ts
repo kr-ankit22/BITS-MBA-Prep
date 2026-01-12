@@ -76,6 +76,10 @@ export interface InterviewExperience {
   // V2 Support: Structured Rounds
   roundsSnapshot?: InterviewRound[];
   status?: 'approved' | 'pending' | 'rejected';
+  rejectionReason?: string; // New: Feedback from admin
+  term?: string; // New: e.g. "Summer 2024"
+  likes?: number; // New: Engagement
+  isVerified?: boolean; // New: Trusted student
   contributorId?: string;
 }
 

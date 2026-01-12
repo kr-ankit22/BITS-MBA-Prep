@@ -13,6 +13,7 @@ const ContributorDashboard: React.FC<ContributorDashboardProps> = ({ companies }
     const { user } = useAuth();
     const [experiences, setExperiences] = useState<InterviewExperience[]>([]);
     const [isCreating, setIsCreating] = useState(false);
+    const [editingExp, setEditingExp] = useState<InterviewExperience | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -25,7 +26,7 @@ const ContributorDashboard: React.FC<ContributorDashboardProps> = ({ companies }
         if (!user) return;
         setLoading(true);
         const data = await api.fetchContributorExperiences(user.id);
-        setExperiences(data as any); // Type assertion if needed due to strict matching
+        setExperiences(data as any);
         setLoading(false);
     };
 
@@ -37,6 +38,20 @@ const ContributorDashboard: React.FC<ContributorDashboardProps> = ({ companies }
                     contributorId={user?.id}
                     onSuccess={() => { setIsCreating(false); loadMyExperiences(); }}
                     onCancel={() => setIsCreating(false)}
+                />
+            </div>
+        );
+    }
+
+    if (editingExp) {
+        return (
+            <div className="max-w-4xl mx-auto px-4 py-8">
+                <ExperienceForm
+                    companies={companies}
+                    contributorId={user?.id}
+                    initialData={editingExp} // Pre-fill formatting
+                    onSuccess={() => { setEditingExp(null); loadMyExperiences(); }}
+                    onCancel={() => setEditingExp(null)}
                 />
             </div>
         );
@@ -57,6 +72,29 @@ const ContributorDashboard: React.FC<ContributorDashboardProps> = ({ companies }
                 </button>
             </div>
 
+            {/* Dashboard Stats */}
+            {!loading && experiences.length > 0 && (
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                        <div className="text-2xl font-bold text-bits-blue">{experiences.length}</div>
+                        <div className="text-xs font-bold text-gray-500 uppercase tracking-wide">Contributions</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                        <div className="text-2xl font-bold text-green-600">{experiences.filter(e => e.status === 'approved').length}</div>
+                        <div className="text-xs font-bold text-green-700 uppercase tracking-wide">Published</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                        <div className="text-2xl font-bold text-orange-500">{experiences.filter(e => e.status === 'pending' || e.status === undefined).length}</div>
+                        <div className="text-xs font-bold text-orange-600 uppercase tracking-wide">In Review</div>
+                    </div>
+                    <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm relative overflow-hidden">
+                        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-bits-gold to-yellow-500 opacity-20 rounded-bl-full"></div>
+                        <div className="text-2xl font-bold text-gray-900">Top 1%</div>
+                        <div className="text-xs font-bold text-gray-500 uppercase tracking-wide">Community Rank</div>
+                    </div>
+                </div>
+            )}
+
             {loading ? (
                 <div className="text-center py-12 text-gray-500">Loading your submissions...</div>
             ) : experiences.length === 0 ? (
@@ -70,22 +108,60 @@ const ContributorDashboard: React.FC<ContributorDashboardProps> = ({ companies }
             ) : (
                 <div className="grid gap-6">
                     {experiences.map(exp => (
-                        <div key={exp.id} className="bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow flex justify-between items-center group">
-                            <div>
-                                <h3 className="text-lg font-bold text-gray-900">{exp.companyName} - {exp.role}</h3>
-                                <div className="flex gap-4 mt-2 text-sm text-gray-500">
-                                    <span>{exp.date}</span>
-                                    {exp.roundsSnapshot && <span>{exp.roundsSnapshot.length} Rounds</span>}
-                                    <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${exp.status === 'approved' ? 'bg-green-100 text-green-700' :
+                        <div key={exp.id} className={`bg-white p-6 rounded-xl shadow-sm border hover:shadow-md transition-all flex flex-col md:flex-row justify-between items-start md:items-center gap-4 group 
+                            ${exp.status === 'rejected' ? 'border-red-200 bg-red-50/10' : 'border-gray-200'}`}>
+
+                            <div className="flex-1">
+                                <div className="flex items-center gap-3">
+                                    <h3 className="text-lg font-bold text-gray-900">{exp.companyName} - {exp.role}</h3>
+                                    <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide 
+                                        ${exp.status === 'approved' ? 'bg-green-100 text-green-700' :
                                             exp.status === 'rejected' ? 'bg-red-100 text-red-700' :
                                                 'bg-yellow-100 text-yellow-700'
                                         }`}>
-                                        {exp.status?.toUpperCase() || 'PENDING'}
+                                        {exp.status || 'PENDING'}
                                     </span>
                                 </div>
+
+                                <div className="flex gap-4 mt-2 text-sm text-gray-500">
+                                    <span>{exp.date}</span>
+                                    {exp.roundsSnapshot && <span>• {exp.roundsSnapshot.length} Rounds</span>}
+                                    {exp.term && <span>• {exp.term}</span>}
+                                </div>
+
+                                {/* Rejection Feedback Display */}
+                                {exp.status === 'rejected' && exp.rejectionReason && (
+                                    <div className="mt-3 p-3 bg-red-50 border border-red-100 rounded-lg text-sm text-red-800 animate-in slide-in-from-top-1">
+                                        <p className="font-bold flex items-center gap-2 mb-1">
+                                            <IconCheckCircle className="w-4 h-4 text-red-600 rotate-180" />
+                                            Action Required
+                                        </p>
+                                        <p className="ml-6">{exp.rejectionReason}</p>
+                                    </div>
+                                )}
                             </div>
-                            <div className="text-gray-400">
-                                {exp.status === 'approved' ? <IconCheckCircle className="w-6 h-6 text-green-500" /> : <IconTime className="w-6 h-6 text-yellow-500" />}
+
+                            <div className="flex gap-3">
+                                {exp.status === 'rejected' && (
+                                    <button
+                                        onClick={() => setEditingExp(exp)}
+                                        className="px-4 py-2 bg-red-600 text-white text-sm font-bold rounded-lg shadow-sm hover:bg-red-700 transition-colors flex items-center gap-2"
+                                    >
+                                        Fix & Resubmit
+                                    </button>
+                                )}
+                                {exp.status === 'approved' && (
+                                    <div className="text-gray-400 flex items-center gap-2">
+                                        <IconCheckCircle className="w-6 h-6 text-green-500" />
+                                        <span className="text-sm font-medium text-green-600">Live</span>
+                                    </div>
+                                )}
+                                {exp.status === 'pending' && (
+                                    <div className="flex items-center gap-2 text-yellow-600 bg-yellow-50 px-3 py-1.5 rounded-lg border border-yellow-100">
+                                        <IconTime className="w-4 h-4" />
+                                        <span className="text-xs font-bold">In Review</span>
+                                    </div>
+                                )}
                             </div>
                         </div>
                     ))}

@@ -342,6 +342,37 @@ export const addExperience = async (exp: Omit<InterviewExperience, 'id'>): Promi
         questions: [],
         roundsSnapshot: data.rounds_snapshot,
         status: data.status,
-        contributorId: data.contributor_id
+        contributorId: data.contributor_id,
+        rejectionReason: data.rejection_reason,
+        term: data.term,
+        likes: data.likes,
+        isVerified: data.is_verified_student
     };
+};
+
+export const updateExperience = async (id: string, updates: Partial<InterviewExperience>): Promise<boolean> => {
+    // Map Frontend CamelCase to DB snake_case
+    const dbUpdates: any = {};
+    if (updates.companyId) dbUpdates.company_id = updates.companyId;
+    if (updates.companyName) dbUpdates.company_name = updates.companyName;
+    if (updates.studentName) dbUpdates.student_name = updates.studentName;
+    if (updates.role) dbUpdates.role = updates.role;
+    if (updates.term) dbUpdates.term = updates.term;
+    if (updates.difficulty) dbUpdates.difficulty = updates.difficulty;
+    if (updates.outcome) dbUpdates.outcome = updates.outcome;
+    if (updates.overallExperience) dbUpdates.overall_experience = updates.overallExperience;
+    if (updates.roundsSnapshot) dbUpdates.rounds_snapshot = updates.roundsSnapshot;
+    if (updates.status) dbUpdates.status = updates.status;
+    if (updates.rejectionReason === null) dbUpdates.rejection_reason = null; // Explicit clear
+
+    const { error } = await supabase
+        .from('interview_experiences')
+        .update(dbUpdates)
+        .eq('id', id);
+
+    if (error) {
+        console.error('Error updating experience:', error);
+        return false;
+    }
+    return true;
 };

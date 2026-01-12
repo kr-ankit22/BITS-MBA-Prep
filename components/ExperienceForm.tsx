@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Company, Difficulty, InterviewExperience, InterviewRound } from '../types';
-import { IconBriefcase, IconCheckCircle, IconPlus, IconTrash, IconUser } from './Icons';
+import { IconBriefcase, IconCheckCircle, IconPlus, IconTrash, IconUser, IconAlertTriangle } from './Icons';
 import * as api from '../services/api';
 
 interface ExperienceFormProps {
@@ -8,7 +8,10 @@ interface ExperienceFormProps {
     contributorId?: string;
     onSuccess: () => void;
     onCancel: () => void;
+    initialData?: InterviewExperience; // For Edit Mode
 }
+
+const terms = ['Summer Internship', 'Final Placement', 'Off-Campus', 'Winter Internship'];
 
 const FormTip: React.FC<{ children: React.ReactNode; color?: 'blue' | 'yellow' | 'pink' }> = ({ children, color = 'blue' }) => {
     const colors = {
@@ -25,22 +28,40 @@ const FormTip: React.FC<{ children: React.ReactNode; color?: 'blue' | 'yellow' |
     );
 };
 
-const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorId, onSuccess, onCancel }) => {
+const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorId, onSuccess, onCancel, initialData }) => {
+    const isEditMode = !!initialData;
+
     // Basic Info
-    const [companyName, setCompanyName] = useState('');
-    const [role, setRole] = useState('');
-    const [studentName, setStudentName] = useState(''); // Optional, default to Anonymous
-    const [outcome, setOutcome] = useState<'Offer' | 'Rejected' | 'Waitlisted' | 'Unknown'>('Unknown');
-    const [difficulty, setDifficulty] = useState<Difficulty>(Difficulty.Medium);
-    const [overallExp, setOverallExp] = useState('');
+    const [companyName, setCompanyName] = useState(initialData?.companyName || '');
+    const [role, setRole] = useState(initialData?.role || '');
+    const [studentName, setStudentName] = useState(initialData?.studentName || '');
+    const [term, setTerm] = useState(initialData?.term || 'Summer Internship');
+    const [outcome, setOutcome] = useState<'Offer' | 'Rejected' | 'Waitlisted' | 'Unknown'>(initialData?.outcome || 'Unknown');
+    const [difficulty, setDifficulty] = useState<Difficulty>(initialData?.difficulty || Difficulty.Medium);
+    const [overallExp, setOverallExp] = useState(initialData?.overallExperience || '');
 
     // Rounds State
-    const [rounds, setRounds] = useState<InterviewRound[]>([
-        { id: '1', type: 'Online Test', difficulty: Difficulty.Medium, questions: [{ text: '' }] }
-    ]);
+    const [rounds, setRounds] = useState<InterviewRound[]>(
+        initialData?.roundsSnapshot || [
+            { id: '1', type: 'Online Test', difficulty: Difficulty.Medium, questions: [{ text: '' }] }
+        ]
+    );
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // Filtered Company Suggestions
+    const [filteredCompanies, setFilteredCompanies] = useState<Company[]>([]);
+
+    const handleCompanySearch = (val: string) => {
+        setCompanyName(val);
+        if (val.length > 0) {
+            const matches = companies.filter(c => c.name.toLowerCase().includes(val.toLowerCase())).slice(0, 5);
+            setFilteredCompanies(matches);
+        } else {
+            setFilteredCompanies([]);
+        }
+    };
 
     const handleAddRound = () => {
         const newRound: InterviewRound = {
@@ -85,7 +106,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorI
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        // Data Integrity & Quality Guard: Ensure meaningful content is submitted
+        // Data Integrity & Quality Guard
         const totalQuestions = rounds.reduce((acc, r) => acc + r.questions.filter(q => q.text.trim().length > 5).length, 0);
         if (totalQuestions === 0) {
             setError("Wait! 🛑 Juniors need specific questions to practice. Please add at least one detailed question.");
@@ -99,22 +120,35 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorI
             const existingCompany = companies.find(c => c.name.toLowerCase() === companyName.toLowerCase());
             const companyId = existingCompany ? existingCompany.id : 'unknown_company';
 
-            const newExp: Omit<InterviewExperience, 'id'> = {
+            // Auto-capitalize Role for consistency
+            const formattedRole = role.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+
+            const expPayload: Partial<InterviewExperience> = {
                 companyId,
-                companyName,
+                companyName, // In a real app, strict this to selection
                 studentName: studentName || 'Anonymous',
-                role,
+                role: formattedRole,
+                term,
                 date: new Date().toISOString(),
                 difficulty,
                 outcome,
                 overallExperience: overallExp,
                 questions: [], // Legacy empty
                 roundsSnapshot: rounds,
-                status: 'pending',
-                contributorId
+                status: 'pending', // Always reset to pending on submit/resubmit
+                contributorId,
+                rejectionReason: null // Clear rejection history
             };
 
-            const result = await api.addExperience(newExp);
+            let result;
+            if (isEditMode && initialData?.id) {
+                // Update Existing
+                result = await api.updateExperience(initialData.id, expPayload);
+            } else {
+                // Create New
+                result = await api.addExperience(expPayload as any);
+            }
+
             if (result) {
                 onSuccess();
             } else {
@@ -132,15 +166,29 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorI
 
     return (
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden ring-1 ring-black/5 animate-in fade-in">
-            <div className="px-6 py-6 border-b border-gray-100 bg-gradient-to-r from-bits-blue/10 to-white flex justify-between items-center text-center sm:text-left">
+            {/* Header */}
+            <div className={`px-6 py-6 border-b border-gray-100 flex justify-between items-center text-center sm:text-left ${isEditMode ? 'bg-orange-50' : 'bg-gradient-to-r from-bits-blue/10 to-white'}`}>
                 <div>
                     <h3 className="font-bold text-gray-900 flex items-center gap-2 text-xl justify-center sm:justify-start">
-                        <IconBriefcase className="w-6 h-6 text-bits-blue" />
-                        Share Your Success Story! 🚀
+                        <IconBriefcase className={`w-6 h-6 ${isEditMode ? 'text-orange-500' : 'text-bits-blue'}`} />
+                        {isEditMode ? 'Fix & Resubmit your Story' : 'Share Your Success Story! 🚀'}
                     </h3>
-                    <p className="text-sm text-gray-500 mt-1 font-medium italic">"The best way to predict your junior's future is to document your past."</p>
+                    <p className="text-sm text-gray-500 mt-1 font-medium italic">
+                        {isEditMode ? "Address the feedback below to get approved." : "\"The best way to predict your junior's future is to document your past.\""}
+                    </p>
                 </div>
             </div>
+
+            {/* Rejection Alert */}
+            {isEditMode && initialData?.rejectionReason && (
+                <div className="mx-6 mt-6 p-4 bg-red-50 border border-red-100 rounded-xl flex items-start gap-3">
+                    <IconAlertTriangle className="w-6 h-6 text-red-600 shrink-0 mt-0.5" />
+                    <div>
+                        <h4 className="text-sm font-bold text-red-800 uppercase mb-1">Changes Requested by Admin</h4>
+                        <p className="text-sm text-red-700 leading-relaxed">{initialData.rejectionReason}</p>
+                    </div>
+                </div>
+            )}
 
             <div className="p-6 md:p-8 space-y-10">
                 {error && <div className="p-4 bg-red-50 text-red-600 rounded-lg border border-red-100 flex items-center gap-3 font-bold animate-shake">
@@ -154,18 +202,42 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorI
                         Context & Outcome
                     </h4>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div className="space-y-2">
+                        <div className="space-y-2 relative">
                             <label className={labelStyle}>Company Name *</label>
-                            <input list="company-list" value={companyName} onChange={e => setCompanyName(e.target.value)} className={inputStyle} required placeholder="e.g. JPMorgan Chase" />
-                            <datalist id="company-list">
-                                {companies.map(c => <option key={c.id} value={c.name} />)}
-                            </datalist>
-                            <FormTip>Be precise! "Accenture Strategy" is way more helpful than just "Accenture". 🎯</FormTip>
+                            <input
+                                value={companyName}
+                                onChange={e => handleCompanySearch(e.target.value)}
+                                className={inputStyle}
+                                required
+                                placeholder="Start typing... (e.g. JPMorgan)"
+                                autoComplete="off"
+                            />
+                            {/* Simple Autocomplete Dropdown */}
+                            {filteredCompanies.length > 0 && (
+                                <div className="absolute z-10 w-full bg-white border border-gray-200 rounded-lg shadow-xl mt-1 max-h-48 overflow-y-auto">
+                                    {filteredCompanies.map(c => (
+                                        <div
+                                            key={c.id}
+                                            className="px-4 py-2 hover:bg-gray-50 cursor-pointer text-sm font-medium flex items-center gap-2"
+                                            onClick={() => { setCompanyName(c.name); setFilteredCompanies([]); }}
+                                        >
+                                            <img src={c.logo} className="w-4 h-4 rounded-full object-contain" alt="" onError={(e) => (e.currentTarget.style.display = 'none')} />
+                                            {c.name}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                            <FormTip>Use the suggestions to ensure your review is discoverable! 🎯</FormTip>
                         </div>
                         <div className="space-y-2">
                             <label className={labelStyle}>Role Applied For *</label>
                             <input value={role} onChange={e => setRole(e.target.value)} className={inputStyle} required placeholder="e.g. Associate Product Manager" />
-                            <FormTip>Specify the role - was it an Internship or Full-time? 💼</FormTip>
+                        </div>
+                        <div className="space-y-2">
+                            <label className={labelStyle}>Term / Season</label>
+                            <select value={term} onChange={e => setTerm(e.target.value)} className={inputStyle}>
+                                {terms.map(t => <option key={t} value={t}>{t}</option>)}
+                            </select>
                         </div>
                         <div className="space-y-2">
                             <label className={labelStyle}>Final Verdict</label>
@@ -318,23 +390,22 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ companies, contributorI
                         {isSubmitting ? (
                             <>
                                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                                Saving Your Journey...
+                                {isEditMode ? 'Resubmit for Review' : 'Publish Experience'}
                             </>
                         ) : (
                             <>
                                 <IconCheckCircle className="w-6 h-6" />
-                                Publish Experience
+                                {isEditMode ? 'Submit Changes' : 'Publish Experience'}
                             </>
                         )}
                     </button>
                     <button type="button" onClick={onCancel} className="flex-1 py-5 px-8 border-2 border-gray-200 rounded-2xl font-bold text-gray-500 hover:bg-gray-50 hover:border-gray-300 transition-all order-2 sm:order-1">
-                        Save as Draft (Cancel)
+                        Cancel
                     </button>
                 </div>
             </div>
         </form>
     );
 };
-
 
 export default ExperienceForm;

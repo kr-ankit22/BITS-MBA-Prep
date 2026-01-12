@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Question, Resource, Company, Recommendation, RecommendationSubject, Difficulty, Topic, InterviewExperience } from '../types';
-import { IconUpload, IconCheckCircle, IconX, IconDatabase, IconBriefcase, IconBook, IconUser, IconLink, IconTime } from './Icons';
+import { IconUpload, IconCheckCircle, IconX, IconDatabase, IconBriefcase, IconBook, IconUser, IconLink, IconTime, IconAlertTriangle } from './Icons';
 import { readFileContent, parseCSV, validateHeaders } from '../utils/csvHelpers';
 import { supabase } from '../services/supabaseClient';
 import * as api from '../services/api';
@@ -35,6 +35,11 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
     const [uploadStats, setUploadStats] = useState<{ success: number; failed: number; errors: string[] } | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
+    // Rejection Flow State
+    const [rejectModalOpen, setRejectModalOpen] = useState(false);
+    const [selectedExpId, setSelectedExpId] = useState<string | null>(null);
+    const [rejectionReason, setRejectionReason] = useState('');
+
     // Fetch Pending Experiences whenever "experience" tab is active
     useEffect(() => {
         if (activeTab === 'experience') {
@@ -48,18 +53,31 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
     };
 
     const handleReviewAction = async (id: string, action: 'approve' | 'reject') => {
+        // Legacy simple support, main flow uses modal for reject
         const status = action === 'approve' ? 'approved' : 'rejected';
-        const { error } = await supabase
-            .from('interview_experiences')
-            .update({ status })
-            .eq('id', id);
+        await api.updateExperience(id, { status });
 
-        if (!error) {
-            // Remove from local list
-            setPendingExperiences(prev => prev.filter(e => e.id !== id));
-            alert(`Experience ${action}d successfully!`);
+        // Remove from local list
+        setPendingExperiences(prev => prev.filter(e => e.id !== id));
+        alert(action === 'approve' ? 'Experience Published! 🚀' : 'Experience Rejected.');
+    };
+
+    const submitRejection = async () => {
+        if (!selectedExpId || !rejectionReason.trim()) return;
+
+        const success = await api.updateExperience(selectedExpId, {
+            status: 'rejected',
+            rejectionReason: rejectionReason
+        });
+
+        if (success) {
+            setPendingExperiences(prev => prev.filter(e => e.id !== selectedExpId));
+            setRejectModalOpen(false);
+            setRejectionReason('');
+            setSelectedExpId(null);
+            alert('Feedback sent to contributor. They can now edit & resubmit.');
         } else {
-            alert(`Failed to ${action} experience.`);
+            alert('Failed to submit rejection.');
         }
     };
 
@@ -932,6 +950,22 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                         <button onClick={loadPendingReviews} type="button" className="text-bits-blue text-sm font-bold hover:underline">Refresh</button>
                                     </div>
 
+                                    {/* Stats Summary */}
+                                    <div className="grid grid-cols-3 gap-4 mb-6">
+                                        <div className="bg-blue-50 p-4 rounded-xl border border-blue-100">
+                                            <div className="text-2xl font-bold text-bits-blue">{pendingExperiences.length}</div>
+                                            <div className="text-xs font-bold text-blue-600 uppercase tracking-wide">Pending Review</div>
+                                        </div>
+                                        <div className="bg-green-50 p-4 rounded-xl border border-green-100">
+                                            <div className="text-2xl font-bold text-green-600">0</div>
+                                            <div className="text-xs font-bold text-green-700 uppercase tracking-wide">Approved Today</div>
+                                        </div>
+                                        <div className="bg-orange-50 p-4 rounded-xl border border-orange-100">
+                                            <div className="text-2xl font-bold text-orange-600">0</div>
+                                            <div className="text-xs font-bold text-orange-700 uppercase tracking-wide">Action Required</div>
+                                        </div>
+                                    </div>
+
                                     {pendingExperiences.length === 0 ? (
                                         <div className="text-center py-12 text-gray-400 bg-gray-50 rounded-xl border border-dashed border-gray-200">
                                             <IconCheckCircle className="w-10 h-10 mx-auto mb-2 text-green-500" />
@@ -944,19 +978,26 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                                     <div className="flex justify-between items-start mb-4">
                                                         <div>
                                                             <h3 className="font-bold text-lg text-gray-900">{exp.companyName} <span className="text-gray-400 font-normal">for</span> {exp.role}</h3>
-                                                            <div className="flex gap-3 text-xs text-gray-500 mt-1">
-                                                                <span className="bg-gray-100 px-2 py-0.5 rounded">Student: {exp.studentName}</span>
+                                                            <div className="flex gap-3 text-xs text-gray-500 mt-1 items-center">
+                                                                <span className="bg-gray-100 px-2 py-0.5 rounded flex items-center gap-1">
+                                                                    Student: {exp.studentName}
+                                                                    {/* Mock Verified Check - Real app would check exp.isVerified */}
+                                                                    {(exp.studentName !== 'Anonymous' && exp.studentName.length > 0) && (
+                                                                        <IconCheckCircle className="w-3 h-3 text-blue-500" />
+                                                                    )}
+                                                                </span>
                                                                 <span className="bg-gray-100 px-2 py-0.5 rounded">{exp.date}</span>
                                                                 <span className={`px-2 py-0.5 rounded ${exp.outcome === 'Offer' ? 'bg-green-100 text-green-700' : 'bg-gray-100'}`}>{exp.outcome}</span>
+                                                                {exp.term && <span className="bg-blue-50 text-blue-800 px-2 py-0.5 rounded border border-blue-100">{exp.term}</span>}
                                                             </div>
                                                         </div>
                                                         <div className="flex gap-2">
                                                             <button
-                                                                onClick={() => handleReviewAction(exp.id, 'reject')}
+                                                                onClick={() => { setSelectedExpId(exp.id); setRejectModalOpen(true); }}
                                                                 type="button"
-                                                                className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors"
+                                                                className="px-3 py-1.5 text-xs font-bold text-red-600 bg-red-50 hover:bg-red-100 rounded-lg transition-colors border border-red-100"
                                                             >
-                                                                Reject
+                                                                Request Changes / Reject
                                                             </button>
                                                             <button
                                                                 onClick={() => handleReviewAction(exp.id, 'approve')}
@@ -998,6 +1039,61 @@ const AdminPanel: React.FC<AdminPanelProps> = ({ onAddQuestion, onAddResource, o
                                             ))}
                                         </div>
                                     )}
+
+                                    {/* Rejection Modal */}
+                                    {rejectModalOpen && (
+                                        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 animate-in fade-in">
+                                            <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-md mx-4 animate-in zoom-in-95">
+                                                <h3 className="text-lg font-bold text-gray-900 mb-2 flex items-center gap-2">
+                                                    <IconAlertTriangle className="w-5 h-5 text-red-500" />
+                                                    Request Changes
+                                                </h3>
+                                                <p className="text-sm text-gray-500 mb-4">
+                                                    Provide feedback to the student on why this submission needs updates. They will be able to edit and resubmit.
+                                                </p>
+
+                                                <div className="space-y-4">
+                                                    <div className="flex flex-wrap gap-2 text-xs">
+                                                        {['Too vague', 'Formatting issues', 'Duplicate content', 'Add more questions'].map(preset => (
+                                                            <button
+                                                                key={preset}
+                                                                type="button"
+                                                                onClick={() => setRejectionReason(preset + ": ")}
+                                                                className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1 rounded-full border border-gray-200 transition-colors"
+                                                            >
+                                                                {preset}
+                                                            </button>
+                                                        ))}
+                                                    </div>
+
+                                                    <textarea
+                                                        value={rejectionReason}
+                                                        onChange={e => setRejectionReason(e.target.value)}
+                                                        rows={4}
+                                                        className="w-full bg-white border border-gray-300 rounded-lg p-3 text-sm focus:ring-2 focus:ring-red-500/20 focus:border-red-500 outline-none"
+                                                        placeholder="e.g. Please add specific questions asked in the technical round..."
+                                                    />
+
+                                                    <div className="flex gap-3 pt-2">
+                                                        <button
+                                                            onClick={submitRejection}
+                                                            disabled={!rejectionReason.trim()}
+                                                            className="flex-1 bg-red-600 text-white font-bold py-2.5 rounded-lg hover:bg-red-700 disabled:opacity-50 transition-colors"
+                                                        >
+                                                            Send Feedback & Reject
+                                                        </button>
+                                                        <button
+                                                            onClick={() => { setRejectModalOpen(false); setRejectionReason(''); }}
+                                                            className="flex-1 bg-gray-100 text-gray-700 font-bold py-2.5 rounded-lg hover:bg-gray-200 transition-colors"
+                                                        >
+                                                            Cancel
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
+
                                 </div>
                             ) : null}
                         </div>
